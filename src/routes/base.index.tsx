@@ -151,6 +151,7 @@ function BaseIndexPage() {
                           <Link
                             to="/base/$categoria/$especializacao"
                             params={{ categoria: cat.id, especializacao: slug }}
+                            preload="intent"
                             className="group flex items-center gap-3 rounded-lg px-3 py-2 text-foreground transition hover:bg-primary/5"
                           >
                             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">

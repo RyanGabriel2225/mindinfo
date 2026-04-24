@@ -1,5 +1,7 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
-import { ArrowLeft, Lightbulb, Sparkles } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { ArrowLeft, Lightbulb, Loader2, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { buscarEspecializacao } from "@/server/especializacao.functions";
 
@@ -11,14 +13,6 @@ const CATEGORIAS_LABEL: Record<string, string> = {
 };
 
 export const Route = createFileRoute("/base/$categoria/$especializacao")({
-  loader: async ({ params }) => {
-    const categoria = CATEGORIAS_LABEL[params.categoria] ?? params.categoria;
-    const especializacao = descodificar(params.especializacao);
-
-    return buscarEspecializacao({
-      data: { categoria, especializacao },
-    });
-  },
   head: ({ params }) => {
     const nome = descodificar(params?.especializacao ?? "");
     return {
@@ -37,27 +31,6 @@ export const Route = createFileRoute("/base/$categoria/$especializacao")({
       ],
     };
   },
-  errorComponent: ({ error, reset }) => {
-    const router = useRouter();
-
-    return (
-      <main className="mx-auto max-w-4xl px-6 py-16">
-        <div className="rounded-2xl border border-destructive/40 bg-destructive/5 p-6 text-destructive">
-          <p className="font-semibold">Erro ao carregar a especialização</p>
-          <p className="mt-2 text-sm">{error.message}</p>
-          <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="mt-4 rounded-full border border-destructive/30 px-4 py-2 text-sm transition hover:bg-destructive/10"
-          >
-            Tentar novamente
-          </button>
-        </div>
-      </main>
-    );
-  },
   component: EspecializacaoPage,
 });
 
@@ -70,10 +43,43 @@ function descodificar(slug: string) {
 
 function EspecializacaoPage() {
   const { categoria, especializacao } = Route.useParams();
-  const { conteudo, error } = Route.useLoaderData();
+  const buscar = useServerFn(buscarEspecializacao);
 
   const nome = descodificar(especializacao);
   const categoriaLabel = CATEGORIAS_LABEL[categoria] ?? categoria;
+  const [conteudo, setConteudo] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+
+    setLoading(true);
+    setError(null);
+    setConteudo("");
+
+    buscar({ data: { categoria: categoriaLabel, especializacao: nome } })
+      .then((res) => {
+        if (!mounted) return;
+
+        if (res.error) {
+          setError(res.error);
+          return;
+        }
+
+        setConteudo(res.conteudo);
+      })
+      .catch(() => {
+        if (mounted) setError("Erro ao buscar informações.");
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, [buscar, categoriaLabel, nome]);
 
   return (
     <>
@@ -100,13 +106,20 @@ function EspecializacaoPage() {
         </div>
 
         <div className="mt-8 rounded-2xl border border-border/60 bg-card/40 p-8 backdrop-blur-sm">
+          {loading && (
+            <div className="flex items-center gap-3 text-muted-foreground">
+              <Loader2 className="h-5 w-5 animate-spin text-primary" />
+              Carregando informações sobre {nome}...
+            </div>
+          )}
+
           {error && (
             <div className="rounded-lg border border-destructive/40 bg-destructive/5 px-4 py-3 text-sm text-destructive">
               {error}
             </div>
           )}
 
-          {!error && conteudo && (
+          {!loading && !error && conteudo && (
             <article className="space-y-4 text-foreground/90 leading-relaxed [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-primary [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:font-display [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-foreground [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:my-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2 [&_li]:marker:text-primary [&_strong]:text-foreground [&_strong]:font-semibold [&_a]:text-primary [&_a]:underline">
               <ReactMarkdown>{conteudo}</ReactMarkdown>
             </article>
