@@ -6,6 +6,7 @@ import {
   PawPrint,
   Layers,
   ChevronDown,
+  ChevronRight,
   type LucideIcon,
 } from "lucide-react";
 
@@ -223,17 +224,28 @@ function BasePage() {
               >
                 <div className="overflow-hidden">
                   <ul className="space-y-2 border-t border-border/60 px-6 py-5">
-                    {cat.especializacoes.map((esp, i) => (
-                      <li
-                        key={esp}
-                        className="flex items-center gap-3 rounded-lg px-3 py-2 text-foreground transition hover:bg-primary/5"
-                      >
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
-                          {i + 1}
-                        </span>
-                        <span className="font-medium">{esp}</span>
-                      </li>
-                    ))}
+                    {cat.especializacoes.map((esp, i) => {
+                      const slug = esp
+                        .toLowerCase()
+                        .normalize("NFD")
+                        .replace(/[\u0300-\u036f]/g, "")
+                        .replace(/\s+/g, "-");
+                      return (
+                        <li key={esp}>
+                          <Link
+                            to="/base/$categoria/$especializacao"
+                            params={{ categoria: cat.id, especializacao: slug }}
+                            className="group flex items-center gap-3 rounded-lg px-3 py-2 text-foreground transition hover:bg-primary/5"
+                          >
+                            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                              {i + 1}
+                            </span>
+                            <span className="font-medium group-hover:text-primary">{esp}</span>
+                            <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground transition group-hover:translate-x-1 group-hover:text-primary" />
+                          </Link>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </div>

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as BaseRouteImport } from './routes/base'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BaseCategoriaEspecializacaoRouteImport } from './routes/base.$categoria.$especializacao'
 
 const BaseRoute = BaseRouteImport.update({
   id: '/base',
@@ -22,31 +23,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BaseCategoriaEspecializacaoRoute =
+  BaseCategoriaEspecializacaoRouteImport.update({
+    id: '/$categoria/$especializacao',
+    path: '/$categoria/$especializacao',
+    getParentRoute: () => BaseRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/base': typeof BaseRoute
+  '/base': typeof BaseRouteWithChildren
+  '/base/$categoria/$especializacao': typeof BaseCategoriaEspecializacaoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/base': typeof BaseRoute
+  '/base': typeof BaseRouteWithChildren
+  '/base/$categoria/$especializacao': typeof BaseCategoriaEspecializacaoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/base': typeof BaseRoute
+  '/base': typeof BaseRouteWithChildren
+  '/base/$categoria/$especializacao': typeof BaseCategoriaEspecializacaoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/base'
+  fullPaths: '/' | '/base' | '/base/$categoria/$especializacao'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/base'
-  id: '__root__' | '/' | '/base'
+  to: '/' | '/base' | '/base/$categoria/$especializacao'
+  id: '__root__' | '/' | '/base' | '/base/$categoria/$especializacao'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  BaseRoute: typeof BaseRoute
+  BaseRoute: typeof BaseRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/base/$categoria/$especializacao': {
+      id: '/base/$categoria/$especializacao'
+      path: '/$categoria/$especializacao'
+      fullPath: '/base/$categoria/$especializacao'
+      preLoaderRoute: typeof BaseCategoriaEspecializacaoRouteImport
+      parentRoute: typeof BaseRoute
+    }
   }
 }
 
+interface BaseRouteChildren {
+  BaseCategoriaEspecializacaoRoute: typeof BaseCategoriaEspecializacaoRoute
+}
+
+const BaseRouteChildren: BaseRouteChildren = {
+  BaseCategoriaEspecializacaoRoute: BaseCategoriaEspecializacaoRoute,
+}
+
+const BaseRouteWithChildren = BaseRoute._addFileChildren(BaseRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  BaseRoute: BaseRoute,
+  BaseRoute: BaseRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
