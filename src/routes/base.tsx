@@ -1,5 +1,6 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { SignOutButton } from "@/components/SignOutButton";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const Route = createFileRoute("/base")({
   component: BaseLayout,
@@ -73,7 +74,10 @@ function BaseLayout() {
             Base
           </Link>
         </nav>
-        <SignOutButton />
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <SignOutButton />
+        </div>
       </header>
 
       <Outlet />

@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Moon, Plus, Search, Send, Sparkles, Globe, Link2, FileText, ArrowUpRight } from "lucide-react";
+import { Plus, Search, Send, Sparkles, Globe, Link2, FileText, ArrowUpRight } from "lucide-react";
 import { chatWithAI } from "@/server/chat.functions";
 import { SignOutButton } from "@/components/SignOutButton";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import wavesBg from "@/assets/waves-bg.jpg";
 
 export const Route = createFileRoute("/")({
@@ -190,12 +191,7 @@ function Index() {
           </Link>
         </nav>
         <div className="flex items-center gap-3">
-          <button
-            aria-label="Tema"
-            className="hidden h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition hover:text-primary md:inline-flex"
-          >
-            <Moon className="h-5 w-5" />
-          </button>
+          <ThemeToggle />
           <SignOutButton />
         </div>
       </header>
