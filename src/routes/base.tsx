@@ -1,4 +1,5 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import { SignOutButton } from "@/components/SignOutButton";
 
 export const Route = createFileRoute("/base")({
   component: BaseLayout,
@@ -72,7 +73,7 @@ function BaseLayout() {
             Base
           </Link>
         </nav>
-        <div className="w-24" />
+        <SignOutButton />
       </header>
 
       <Outlet />

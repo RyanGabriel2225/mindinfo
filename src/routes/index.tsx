@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Moon, Plus, Search, Send, Sparkles, Globe, Link2, FileText, ArrowUpRight } from "lucide-react";
 import { chatWithAI } from "@/server/chat.functions";
+import { SignOutButton } from "@/components/SignOutButton";
 import wavesBg from "@/assets/waves-bg.jpg";
 
 export const Route = createFileRoute("/")({
@@ -195,12 +196,7 @@ function Index() {
           >
             <Moon className="h-5 w-5" />
           </button>
-          <button className="h-10 rounded-full border border-border bg-transparent px-5 text-sm font-medium text-foreground transition hover:border-primary hover:text-primary">
-            Entrar
-          </button>
-          <button className="h-10 rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground transition hover:brightness-110">
-            Criar conta
-          </button>
+          <SignOutButton />
         </div>
       </header>
 
