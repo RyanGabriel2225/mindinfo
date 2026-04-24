@@ -6,6 +6,7 @@ import {
   PawPrint,
   Layers,
   ChevronDown,
+  ChevronRight,
   type LucideIcon,
 } from "lucide-react";
 
