@@ -1,9 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Plus, Search, Send, Sparkles, Globe, Link2, FileText, ArrowUpRight, Trash2 } from "lucide-react";
+import { Plus, Search, Send, Sparkles, Globe, Link2, FileText, ArrowUpRight } from "lucide-react";
 import { chatWithAI } from "@/server/chat.functions";
-import { salvarConversa, listarConversas, carregarConversa, deletarConversa } from "@/server/conversations.functions";
 import { SignOutButton } from "@/components/SignOutButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import wavesBg from "@/assets/waves-bg.jpg";
@@ -34,13 +33,6 @@ export const Route = createFileRoute("/")({
 });
 
 type Msg = { role: "user" | "assistant"; content: string; time?: string };
-
-type SavedConversation = {
-  id: string;
-  title: string;
-  created_at: string;
-  updated_at: string;
-};
 
 const SUGGESTIONS = [
   "Como funciona a inteligência artificial?",
@@ -78,89 +70,33 @@ function Logo() {
 
 function Index() {
   const callChat = useServerFn(chatWithAI);
-  const callSalvar = useServerFn(salvarConversa);
-  const callListar = useServerFn(listarConversas);
-  const callCarregar = useServerFn(carregarConversa);
-  const callDeletar = useServerFn(deletarConversa);
-
   const [input, setInput] = useState("");
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState<Msg[]>([]);
+  const [history, setHistory] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
-
-  // Conversa atual
-  const [currentConvId, setCurrentConvId] = useState<string | undefined>(undefined);
-  const [currentTitle, setCurrentTitle] = useState<string>("");
-
-  // Lista de conversas salvas
-  const [savedConversations, setSavedConversations] = useState<SavedConversation[]>([]);
-  const [loadingConversations, setLoadingConversations] = useState(true);
-
   const chatRef = useRef<HTMLDivElement>(null);
-
-  // Carrega lista de conversas ao montar
-  useEffect(() => {
-    callListar({}).then((res) => {
-      if (res.ok) setSavedConversations(res.conversations as SavedConversation[]);
-      setLoadingConversations(false);
-    });
-  }, []);
 
   useEffect(() => {
     chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
 
-  // Salva automaticamente após cada resposta da IA
-  const autoSave = useCallback(
-    async (msgs: Msg[], title?: string) => {
-      if (msgs.length < 2) return; // precisa de pelo menos uma troca
-      setSaving(true);
-      try {
-        const convTitle = title || currentTitle || gerarTitulo(msgs);
-        const res = await callSalvar({
-          data: {
-            conversationId: currentConvId,
-            title: convTitle,
-            messages: msgs.map(({ role, content }) => ({ role, content })),
-          },
-        });
-        if (res.ok) {
-          setCurrentConvId(res.conversationId);
-          setCurrentTitle(convTitle);
-          // Atualiza lista de conversas na sidebar
-          callListar({}).then((r) => {
-            if (r.ok) setSavedConversations(r.conversations as SavedConversation[]);
-          });
-        }
-      } finally {
-        setSaving(false);
-      }
-    },
-    [currentConvId, currentTitle, callSalvar, callListar]
-  );
-
   async function send(text: string) {
     const pergunta = text.trim();
     if (!pergunta || loading) return;
-
     const next: Msg[] = [
       ...messages,
       { role: "user", content: pergunta, time: nowHHMM() },
     ];
     setMessages(next);
+    if (!history.includes(pergunta)) setHistory((h) => [pergunta, ...h].slice(0, 8));
     setLoading(true);
-
     try {
       const res = await callChat({
         data: { historico: next.map(({ role, content }) => ({ role, content })) },
       });
       const content = res.error ? `⚠️ ${res.error}` : res.resposta;
-      const finalMsgs: Msg[] = [...next, { role: "assistant", content, time: nowHHMM() }];
-      setMessages(finalMsgs);
-
-      // Auto-salva após a resposta
-      await autoSave(finalMsgs);
+      setMessages((m) => [...m, { role: "assistant", content, time: nowHHMM() }]);
     } catch {
       setMessages((m) => [
         ...m,
@@ -169,29 +105,6 @@ function Index() {
     } finally {
       setLoading(false);
     }
-  }
-
-  async function abrirConversa(conv: SavedConversation) {
-    const res = await callCarregar({ data: { conversationId: conv.id } });
-    if (!res.ok) return;
-    setCurrentConvId(conv.id);
-    setCurrentTitle(conv.title);
-    setMessages(
-      res.messages.map((m) => ({ role: m.role, content: m.content }))
-    );
-  }
-
-  async function novaConversa() {
-    setMessages([]);
-    setCurrentConvId(undefined);
-    setCurrentTitle("");
-  }
-
-  async function excluirConversa(convId: string, e: React.MouseEvent) {
-    e.stopPropagation();
-    await callDeletar({ data: { conversationId: convId } });
-    setSavedConversations((prev) => prev.filter((c) => c.id !== convId));
-    if (currentConvId === convId) novaConversa();
   }
 
   function onHeroSubmit(e: React.FormEvent) {
@@ -223,13 +136,23 @@ function Index() {
         }}
       />
 
-      {/* IM watermark */}
+      {/* IM watermark logo */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 -z-10 flex items-center justify-center"
       >
-        <svg viewBox="0 0 400 400" className="h-[70vmin] w-[70vmin] opacity-[0.04]">
-          <circle cx="200" cy="200" r="190" fill="none" stroke="var(--gold)" strokeWidth="2" />
+        <svg
+          viewBox="0 0 400 400"
+          className="h-[70vmin] w-[70vmin] opacity-[0.04]"
+        >
+          <circle
+            cx="200"
+            cy="200"
+            r="190"
+            fill="none"
+            stroke="var(--gold)"
+            strokeWidth="2"
+          />
           <text
             x="50%"
             y="54%"
@@ -242,7 +165,14 @@ function Index() {
           >
             IM
           </text>
-          <line x1="120" y1="280" x2="280" y2="280" stroke="var(--gold)" strokeWidth="2" />
+          <line
+            x1="120"
+            y1="280"
+            x2="280"
+            y2="280"
+            stroke="var(--gold)"
+            strokeWidth="2"
+          />
         </svg>
       </div>
 
@@ -250,8 +180,15 @@ function Index() {
       <header className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
         <Logo />
         <nav className="hidden items-center gap-8 text-sm font-medium md:flex">
-          <Link to="/" className="text-primary">Início</Link>
-          <Link to="/base" className="text-muted-foreground transition hover:text-foreground">Base</Link>
+          <Link to="/" className="text-primary">
+            Início
+          </Link>
+          <Link
+            to="/base"
+            className="text-muted-foreground transition hover:text-foreground"
+          >
+            Base
+          </Link>
         </nav>
         <div className="flex items-center gap-3">
           <ThemeToggle />
@@ -313,67 +250,38 @@ function Index() {
             {/* Sidebar */}
             <aside className="border-b border-border p-5 md:border-b-0 md:border-r">
               <button
-                onClick={novaConversa}
+                onClick={() => setMessages([])}
                 className="inline-flex items-center gap-2 text-sm font-medium text-foreground transition hover:text-primary"
               >
                 <Plus className="h-4 w-4" /> Nova conversa
               </button>
-
               <p className="mt-6 text-xs uppercase tracking-wider text-muted-foreground">
-                Conversas salvas
-                {saving && <span className="ml-2 text-primary animate-pulse">· salvando…</span>}
+                Conversas recentes
               </p>
-
               <ul className="mt-3 space-y-1">
-                {loadingConversations ? (
-                  <li className="text-xs text-muted-foreground px-3 py-2">Carregando…</li>
-                ) : savedConversations.length === 0 ? (
-                  <li className="text-xs text-muted-foreground px-3 py-2">Nenhuma conversa ainda.</li>
-                ) : (
-                  savedConversations.map((conv) => (
-                    <li key={conv.id}>
-                      <button
-                        onClick={() => abrirConversa(conv)}
-                        className={
-                          "group flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-sm transition " +
-                          (currentConvId === conv.id
-                            ? "bg-accent/30 text-foreground"
-                            : "text-muted-foreground hover:bg-secondary hover:text-foreground")
-                        }
-                      >
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate font-medium">{conv.title}</p>
-                          <p className="text-[10px] text-muted-foreground">
-                            {formatDate(conv.updated_at)}
-                          </p>
-                        </div>
-                        <button
-                          onClick={(e) => excluirConversa(conv.id, e)}
-                          className="shrink-0 opacity-0 group-hover:opacity-100 transition text-muted-foreground hover:text-destructive"
-                          title="Excluir conversa"
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </button>
-                      </button>
-                    </li>
-                  ))
-                )}
+                {(history.length ? history : SUGGESTIONS).map((h, i) => (
+                  <li key={h + i}>
+                    <button
+                      onClick={() => send(h)}
+                      className={
+                        "block w-full truncate rounded-lg px-3 py-2 text-left text-sm transition " +
+                        (i === 0
+                          ? "bg-accent/30 text-foreground"
+                          : "text-muted-foreground hover:bg-secondary hover:text-foreground")
+                      }
+                    >
+                      {h}
+                    </button>
+                  </li>
+                ))}
               </ul>
-
-              <p className="mt-6 text-[10px] text-muted-foreground leading-relaxed">
-                📧 Backup diário enviado por email às 02:00 UTC.
-              </p>
+              <button className="mt-6 inline-flex items-center gap-1 text-xs text-muted-foreground transition hover:text-primary">
+                Ver todas <ArrowUpRight className="h-3 w-3" />
+              </button>
             </aside>
 
             {/* Chat area */}
             <div className="flex min-h-[420px] flex-col">
-              {/* Título da conversa atual */}
-              {currentTitle && (
-                <div className="border-b border-border px-6 py-3">
-                  <p className="text-sm font-medium text-foreground truncate">{currentTitle}</p>
-                </div>
-              )}
-
               <div ref={chatRef} className="flex-1 space-y-4 overflow-y-auto p-6">
                 {messages.length === 0 && (
                   <div className="flex h-full min-h-[300px] flex-col items-center justify-center text-center text-sm text-muted-foreground">
@@ -416,7 +324,7 @@ function Index() {
                 )}
               </div>
 
-              {/* Input */}
+              {/* Continue chat input */}
               <form
                 onSubmit={onChatSubmit}
                 className="flex items-center gap-3 border-t border-border bg-background/40 px-6 py-4"
@@ -454,21 +362,4 @@ function Index() {
 function nowHHMM() {
   const d = new Date();
   return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
-}
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
-// Gera um título automático com base na primeira mensagem do usuário
-function gerarTitulo(msgs: Msg[]): string {
-  const primeira = msgs.find((m) => m.role === "user")?.content ?? "Conversa";
-  const truncated = primeira.length > 60 ? primeira.slice(0, 57) + "…" : primeira;
-  const data = new Date().toLocaleDateString("pt-BR");
-  return `${truncated} · ${data}`;
 }
