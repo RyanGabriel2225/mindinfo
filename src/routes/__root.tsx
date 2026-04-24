@@ -37,6 +37,10 @@ export const Route = createRootRoute({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "InfoMind" },
+      { name: "twitter:description", content: "Inteligência artificial para respostas claras e rápidas." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/24810439-b4df-4dab-a86e-351c0a212b57/id-preview-a5983a49--56fd213e-a515-4faf-9fa0-d011cf4d0a74.lovable.app-1777041537502.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/24810439-b4df-4dab-a86e-351c0a212b57/id-preview-a5983a49--56fd213e-a515-4faf-9fa0-d011cf4d0a74.lovable.app-1777041537502.png" },
     ],
     links: [
       {
