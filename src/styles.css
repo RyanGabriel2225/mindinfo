@@ -37,7 +37,55 @@
 :root {
   --radius: 0.75rem;
 
-  /* InfoMind palette — preto, dourado, verde esmeralda */
+  /* InfoMind palette — TEMA CLARO (creme, dourado, verde esmeralda) */
+  --background: oklch(0.98 0.005 85);         /* off-white quente */
+  --foreground: oklch(0.18 0 0);              /* quase preto */
+  --card: oklch(1 0 0);                       /* branco */
+  --card-foreground: oklch(0.18 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0 0);
+
+  --primary: oklch(0.65 0.13 85);             /* dourado mais escuro p/ contraste */
+  --primary-foreground: oklch(0.98 0 0);
+
+  --secondary: oklch(0.94 0.005 85);
+  --secondary-foreground: oklch(0.18 0 0);
+
+  --muted: oklch(0.94 0.005 85);
+  --muted-foreground: oklch(0.45 0 0);
+
+  --accent: oklch(0.42 0.10 155);             /* verde esmeralda */
+  --accent-foreground: oklch(0.98 0 0);
+
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  --border: oklch(0.88 0.005 85);
+  --input: oklch(0.94 0.005 85);
+  --ring: oklch(0.65 0.13 85);
+
+  --gold: oklch(0.65 0.13 85);
+  --gold-stroke: 0.65 0.13 85;
+  --emerald-deep: oklch(0.42 0.10 155);
+
+  --chart-1: var(--gold);
+  --chart-2: var(--emerald-deep);
+  --chart-3: oklch(0.55 0 0);
+  --chart-4: oklch(0.70 0.10 85);
+  --chart-5: oklch(0.30 0.08 155);
+
+  --sidebar: oklch(0.98 0.005 85);
+  --sidebar-foreground: oklch(0.18 0 0);
+  --sidebar-primary: var(--gold);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.94 0.005 85);
+  --sidebar-accent-foreground: oklch(0.18 0 0);
+  --sidebar-border: oklch(0.88 0.005 85);
+  --sidebar-ring: var(--gold);
+}
+
+.dark {
+  /* InfoMind palette — TEMA ESCURO (preto, dourado, verde esmeralda) */
   --background: oklch(0.13 0 0);              /* #0D0D0D */
   --foreground: oklch(0.96 0 0);              /* #F5F5F5 */
   --card: oklch(0.16 0 0);                    /* #1A1A1A */
@@ -54,7 +102,7 @@
   --muted: oklch(0.20 0 0);
   --muted-foreground: oklch(0.70 0 0);
 
-  --accent: oklch(0.42 0.10 155);             /* verde esmeralda #0F5C3A */
+  --accent: oklch(0.42 0.10 155);
   --accent-foreground: oklch(0.96 0 0);
 
   --destructive: oklch(0.62 0.22 25);
@@ -67,12 +115,6 @@
   --gold: oklch(0.78 0.13 85);
   --gold-stroke: 0.78 0.13 85;
   --emerald-deep: oklch(0.42 0.10 155);
-
-  --chart-1: var(--gold);
-  --chart-2: var(--emerald-deep);
-  --chart-3: oklch(0.55 0 0);
-  --chart-4: oklch(0.70 0.10 85);
-  --chart-5: oklch(0.30 0.08 155);
 
   --sidebar: oklch(0.13 0 0);
   --sidebar-foreground: oklch(0.96 0 0);
