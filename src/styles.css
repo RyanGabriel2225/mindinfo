@@ -65,6 +65,7 @@
   --ring: oklch(0.78 0.13 85);
 
   --gold: oklch(0.78 0.13 85);
+  --gold-stroke: 0.78 0.13 85;
   --emerald-deep: oklch(0.42 0.10 155);
 
   --chart-1: var(--gold);
