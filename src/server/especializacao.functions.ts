@@ -14,18 +14,18 @@ export const buscarEspecializacao = createServerFn({ method: "POST" })
       return { conteudo: "", error: "AI gateway não configurado." };
     }
 
-    const prompt = `Forneça informações detalhadas e bem estruturadas sobre a especialização "${data.especializacao}" da área de "${data.categoria}".
+    const prompt = `Forneça informações diretas e objetivas sobre a especialização "${data.especializacao}" da área de "${data.categoria}".
 
-Responda em português brasileiro, em markdown, com as seguintes seções:
+Responda em português brasileiro, em markdown, de forma concisa, com as seguintes seções:
 
 ## Visão geral
-Um parágrafo explicando o que é a especialização.
+Um parágrafo curto explicando o que é a especialização.
 
 ## Principais áreas de atuação
 Lista de 5 a 7 áreas/procedimentos que o profissional realiza.
 
-## Quando procurar
-Lista de sinais, sintomas ou situações em que se deve procurar essa especialização.
+## Termos técnicos do dia a dia
+Liste exatamente 5 termos, jargões ou siglas mais utilizados entre os especialistas dessa área na comunicação com outros profissionais da mesma especialidade. Para cada termo, traga o nome em **negrito** seguido de uma explicação curta (1 linha) do que significa na prática clínica/profissional.
 
 ## Formação e atuação
 Breve descrição sobre formação necessária e onde o profissional atua.
@@ -33,7 +33,7 @@ Breve descrição sobre formação necessária e onde o profissional atua.
 ## Curiosidades
 2 ou 3 curiosidades interessantes sobre a área.
 
-Seja informativo, técnico mas acessível, e evite repetir informações.`;
+Seja direto, técnico e evite redundâncias.`;
 
     try {
       const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
