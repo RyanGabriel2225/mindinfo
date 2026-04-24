@@ -178,22 +178,15 @@ function Index() {
       <header className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
         <Logo />
         <nav className="hidden items-center gap-8 text-sm font-medium md:flex">
-          {[
-            ["Início", true],
-            ["Base", false],
-          ].map(([label, active]) => (
-            <a
-              key={label as string}
-              href="#"
-              className={
-                active
-                  ? "text-primary"
-                  : "text-muted-foreground transition hover:text-foreground"
-              }
-            >
-              {label as string}
-            </a>
-          ))}
+          <Link to="/" className="text-primary">
+            Início
+          </Link>
+          <Link
+            to="/base"
+            className="text-muted-foreground transition hover:text-foreground"
+          >
+            Base
+          </Link>
         </nav>
         <div className="flex items-center gap-3">
           <button
