@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as BaseRouteImport } from './routes/base'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BaseIndexRouteImport } from './routes/base.index'
 import { Route as BaseCategoriaEspecializacaoRouteImport } from './routes/base.$categoria.$especializacao'
 
 const BaseRoute = BaseRouteImport.update({
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BaseIndexRoute = BaseIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BaseRoute,
+} as any)
 const BaseCategoriaEspecializacaoRoute =
   BaseCategoriaEspecializacaoRouteImport.update({
     id: '/$categoria/$especializacao',
@@ -33,25 +39,27 @@ const BaseCategoriaEspecializacaoRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/base': typeof BaseRouteWithChildren
+  '/base/': typeof BaseIndexRoute
   '/base/$categoria/$especializacao': typeof BaseCategoriaEspecializacaoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/base': typeof BaseRouteWithChildren
+  '/base': typeof BaseIndexRoute
   '/base/$categoria/$especializacao': typeof BaseCategoriaEspecializacaoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/base': typeof BaseRouteWithChildren
+  '/base/': typeof BaseIndexRoute
   '/base/$categoria/$especializacao': typeof BaseCategoriaEspecializacaoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/base' | '/base/$categoria/$especializacao'
+  fullPaths: '/' | '/base' | '/base/' | '/base/$categoria/$especializacao'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/base' | '/base/$categoria/$especializacao'
-  id: '__root__' | '/' | '/base' | '/base/$categoria/$especializacao'
+  id: '__root__' | '/' | '/base' | '/base/' | '/base/$categoria/$especializacao'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -75,6 +83,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/base/': {
+      id: '/base/'
+      path: '/'
+      fullPath: '/base/'
+      preLoaderRoute: typeof BaseIndexRouteImport
+      parentRoute: typeof BaseRoute
+    }
     '/base/$categoria/$especializacao': {
       id: '/base/$categoria/$especializacao'
       path: '/$categoria/$especializacao'
@@ -86,10 +101,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface BaseRouteChildren {
+  BaseIndexRoute: typeof BaseIndexRoute
   BaseCategoriaEspecializacaoRoute: typeof BaseCategoriaEspecializacaoRoute
 }
 
 const BaseRouteChildren: BaseRouteChildren = {
+  BaseIndexRoute: BaseIndexRoute,
   BaseCategoriaEspecializacaoRoute: BaseCategoriaEspecializacaoRoute,
 }
 
@@ -102,3 +119,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
