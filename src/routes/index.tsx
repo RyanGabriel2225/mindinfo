@@ -180,10 +180,7 @@ function Index() {
         <nav className="hidden items-center gap-8 text-sm font-medium md:flex">
           {[
             ["Início", true],
-            ["Recursos", false],
-            ["Planos", false],
-            ["Sobre", false],
-            ["Contato", false],
+            ["Base", false],
           ].map(([label, active]) => (
             <a
               key={label as string}
