@@ -138,7 +138,7 @@ function EspecializacaoPage() {
           )}
 
           {!carregando && !erro && conteudo && (
-            <article className="prose prose-invert max-w-none prose-headings:font-display prose-headings:text-foreground prose-h2:mt-8 prose-h2:text-2xl prose-h2:text-primary prose-p:text-foreground/90 prose-p:leading-relaxed prose-li:text-foreground/90 prose-strong:text-foreground prose-a:text-primary">
+            <article className="space-y-4 text-foreground/90 leading-relaxed [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-primary [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:font-display [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-foreground [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:my-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2 [&_li]:marker:text-primary [&_strong]:text-foreground [&_strong]:font-semibold [&_a]:text-primary [&_a]:underline">
               <ReactMarkdown>{conteudo}</ReactMarkdown>
             </article>
           )}
