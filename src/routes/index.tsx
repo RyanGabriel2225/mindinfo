@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Moon, Plus, Search, Send, Sparkles, Globe, Link2, FileText, ArrowUpRight } from "lucide-react";
