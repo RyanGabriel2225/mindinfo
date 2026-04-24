@@ -24,8 +24,8 @@ Um parágrafo curto explicando o que é a especialização.
 ## Principais áreas de atuação
 Lista de 5 a 7 áreas/procedimentos que o profissional realiza.
 
-## Termos técnicos do dia a dia
-Liste exatamente 5 termos, jargões ou siglas mais utilizados entre os especialistas dessa área na comunicação com outros profissionais da mesma especialidade. Para cada termo, traga o nome em **negrito** seguido de uma explicação curta (1 linha) do que significa na prática clínica/profissional.
+## Termos usados na área
+Liste exatamente 5 termos, gírias, abreviações ou expressões informais que os profissionais dessa especialidade usam no dia a dia para se referir a coisas do trabalho deles (pacientes, procedimentos, equipamentos, situações, colegas, etc.) — o jeito que eles realmente falam entre si, não os termos técnicos formais do livro. Para cada termo, traga o nome em **negrito** seguido de uma explicação curta (1 linha) do que querem dizer com aquilo na prática.
 
 ## Formação e atuação
 Breve descrição sobre formação necessária e onde o profissional atua.
