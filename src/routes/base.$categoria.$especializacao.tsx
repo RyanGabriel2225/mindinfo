@@ -1,7 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, Lightbulb, Loader2, Sparkles } from "lucide-react";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { ArrowLeft, Lightbulb, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { buscarEspecializacao } from "@/server/especializacao.functions";
 
@@ -13,6 +11,14 @@ const CATEGORIAS_LABEL: Record<string, string> = {
 };
 
 export const Route = createFileRoute("/base/$categoria/$especializacao")({
+  loader: async ({ params }) => {
+    const categoria = CATEGORIAS_LABEL[params.categoria] ?? params.categoria;
+    const especializacao = descodificar(params.especializacao);
+
+    return buscarEspecializacao({
+      data: { categoria, especializacao },
+    });
+  },
   head: ({ params }) => {
     const nome = descodificar(params?.especializacao ?? "");
     return {
@@ -31,6 +37,27 @@ export const Route = createFileRoute("/base/$categoria/$especializacao")({
       ],
     };
   },
+  errorComponent: ({ error, reset }) => {
+    const router = useRouter();
+
+    return (
+      <main className="mx-auto max-w-4xl px-6 py-16">
+        <div className="rounded-2xl border border-destructive/40 bg-destructive/5 p-6 text-destructive">
+          <p className="font-semibold">Erro ao carregar a especialização</p>
+          <p className="mt-2 text-sm">{error.message}</p>
+          <button
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
+            className="mt-4 rounded-full border border-destructive/30 px-4 py-2 text-sm transition hover:bg-destructive/10"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      </main>
+    );
+  },
   component: EspecializacaoPage,
 });
 
@@ -43,64 +70,13 @@ function descodificar(slug: string) {
 
 function EspecializacaoPage() {
   const { categoria, especializacao } = Route.useParams();
-  const buscar = useServerFn(buscarEspecializacao);
+  const { conteudo, error } = Route.useLoaderData();
 
   const nome = descodificar(especializacao);
   const categoriaLabel = CATEGORIAS_LABEL[categoria] ?? categoria;
 
-  const [conteudo, setConteudo] = useState("");
-  const [erro, setErro] = useState<string | null>(null);
-  const [carregando, setCarregando] = useState(true);
-
-  useEffect(() => {
-    let ativo = true;
-    setCarregando(true);
-    setErro(null);
-    setConteudo("");
-
-    buscar({ data: { categoria: categoriaLabel, especializacao: nome } })
-      .then((res) => {
-        if (!ativo) return;
-        if (res.error) setErro(res.error);
-        else setConteudo(res.conteudo);
-      })
-      .catch(() => {
-        if (ativo) setErro("Erro ao buscar informações.");
-      })
-      .finally(() => {
-        if (ativo) setCarregando(false);
-      });
-
-    return () => {
-      ativo = false;
-    };
-  }, [buscar, categoriaLabel, nome]);
-
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* Marca d'água IM */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 -z-10 flex items-center justify-center"
-      >
-        <svg viewBox="0 0 400 400" className="h-[70vmin] w-[70vmin] opacity-[0.04]">
-          <circle cx="200" cy="200" r="190" fill="none" stroke="var(--gold)" strokeWidth="2" />
-          <text
-            x="50%"
-            y="54%"
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fontFamily="Playfair Display, serif"
-            fontSize="160"
-            fill="var(--gold)"
-            fontWeight="700"
-          >
-            IM
-          </text>
-          <line x1="120" y1="280" x2="280" y2="280" stroke="var(--gold)" strokeWidth="2" />
-        </svg>
-      </div>
-
+    <>
       <header className="mx-auto max-w-5xl px-6 py-8">
         <Link
           to="/base"
@@ -124,20 +100,13 @@ function EspecializacaoPage() {
         </div>
 
         <div className="mt-8 rounded-2xl border border-border/60 bg-card/40 p-8 backdrop-blur-sm">
-          {carregando && (
-            <div className="flex items-center gap-3 text-muted-foreground">
-              <Loader2 className="h-5 w-5 animate-spin text-primary" />
-              Buscando informações sobre {nome}...
-            </div>
-          )}
-
-          {erro && !carregando && (
+          {error && (
             <div className="rounded-lg border border-destructive/40 bg-destructive/5 px-4 py-3 text-sm text-destructive">
-              {erro}
+              {error}
             </div>
           )}
 
-          {!carregando && !erro && conteudo && (
+          {!error && conteudo && (
             <article className="space-y-4 text-foreground/90 leading-relaxed [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-primary [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:font-display [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-foreground [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:my-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2 [&_li]:marker:text-primary [&_strong]:text-foreground [&_strong]:font-semibold [&_a]:text-primary [&_a]:underline">
               <ReactMarkdown>{conteudo}</ReactMarkdown>
             </article>
@@ -152,6 +121,6 @@ function EspecializacaoPage() {
           </p>
         </div>
       </main>
-    </div>
+    </>
   );
 }
