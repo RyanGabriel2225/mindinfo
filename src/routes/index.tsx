@@ -54,7 +54,7 @@ function Logo() {
           fill="var(--gold)"
           fontWeight="700"
         >
-          IE
+          IM
         </text>
         <line x1="14" y1="34" x2="34" y2="34" stroke="var(--gold)" strokeWidth="0.8" />
       </svg>
@@ -278,7 +278,7 @@ function Index() {
                   ) : (
                     <div key={i} className="flex items-start gap-3">
                       <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/40 text-primary">
-                        <span className="font-display text-xs font-bold">IE</span>
+                        <span className="font-display text-xs font-bold">IM</span>
                       </div>
                       <div className="max-w-[85%] rounded-2xl rounded-tl-sm border border-border bg-secondary/60 px-4 py-3">
                         <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
