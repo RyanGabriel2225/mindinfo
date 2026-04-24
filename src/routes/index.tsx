@@ -43,7 +43,7 @@ function Logo() {
   return (
     <div className="flex items-center gap-3">
       <svg viewBox="0 0 48 48" className="h-10 w-10" aria-hidden>
-        <circle cx="24" cy="24" r="22" fill="none" stroke="hsl(var(--gold-stroke))" strokeWidth="1.2" />
+        <circle cx="24" cy="24" r="22" fill="none" stroke="var(--gold)" strokeWidth="1.2" />
         <text
           x="50%"
           y="54%"
