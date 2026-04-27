@@ -1,10 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Plus, Search, Send, Sparkles, Globe, Link2, FileText, ArrowUpRight } from "lucide-react";
+import { Plus, Search, Send, Sparkles, Globe, Link2, FileText, Trash2 } from "lucide-react";
 import { chatWithAI } from "@/server/chat.functions";
 import { SignOutButton } from "@/components/SignOutButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useAuth } from "@/lib/auth-context";
+import {
+  listConversations,
+  createConversation,
+  deleteConversation,
+  renameConversation,
+  listMessages,
+  insertMessage,
+  deriveTitle,
+  type Conversation,
+} from "@/lib/conversations";
 import wavesBg from "@/assets/waves-bg.jpg";
 
 export const Route = createFileRoute("/")({
@@ -69,11 +80,13 @@ function Logo() {
 }
 
 function Index() {
+  const { user } = useAuth();
   const callChat = useServerFn(chatWithAI);
   const [input, setInput] = useState("");
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState<Msg[]>([]);
-  const [history, setHistory] = useState<string[]>([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
 
@@ -81,22 +94,87 @@ function Index() {
     chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
 
+  // Carregar conversas do usuário
+  useEffect(() => {
+    if (!user) return;
+    listConversations(user.id).then(setConversations).catch(console.error);
+  }, [user]);
+
+  async function openConversation(id: string) {
+    setActiveId(id);
+    try {
+      const msgs = await listMessages(id);
+      setMessages(
+        msgs.map((m) => ({
+          role: m.role,
+          content: m.content,
+          time: formatTime(m.created_at),
+        })),
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  function newConversation() {
+    setActiveId(null);
+    setMessages([]);
+  }
+
+  async function removeConversation(id: string) {
+    try {
+      await deleteConversation(id);
+      setConversations((c) => c.filter((x) => x.id !== id));
+      if (activeId === id) newConversation();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   async function send(text: string) {
     const pergunta = text.trim();
-    if (!pergunta || loading) return;
-    const next: Msg[] = [
-      ...messages,
-      { role: "user", content: pergunta, time: nowHHMM() },
-    ];
+    if (!pergunta || loading || !user) return;
+
+    // Cria conversa se necessário
+    let convId = activeId;
+    if (!convId) {
+      try {
+        const c = await createConversation(user.id, deriveTitle(pergunta));
+        convId = c.id;
+        setActiveId(c.id);
+        setConversations((prev) => [c, ...prev]);
+      } catch (e) {
+        console.error(e);
+        return;
+      }
+    }
+
+    const userMsg: Msg = { role: "user", content: pergunta, time: nowHHMM() };
+    const next: Msg[] = [...messages, userMsg];
     setMessages(next);
-    if (!history.includes(pergunta)) setHistory((h) => [pergunta, ...h].slice(0, 8));
     setLoading(true);
+
+    // Persistir mensagem do usuário
+    insertMessage(user.id, convId, "user", pergunta).catch(console.error);
+
     try {
       const res = await callChat({
         data: { historico: next.map(({ role, content }) => ({ role, content })) },
       });
       const content = res.error ? `⚠️ ${res.error}` : res.resposta;
       setMessages((m) => [...m, { role: "assistant", content, time: nowHHMM() }]);
+      // Persistir resposta
+      insertMessage(user.id, convId, "assistant", content).catch(console.error);
+
+      // Se primeira mensagem, garante título
+      if (messages.length === 0) {
+        renameConversation(convId, deriveTitle(pergunta)).catch(() => {});
+        setConversations((prev) =>
+          prev.map((c) =>
+            c.id === convId ? { ...c, title: deriveTitle(pergunta) } : c,
+          ),
+        );
+      }
     } catch {
       setMessages((m) => [
         ...m,
@@ -141,18 +219,8 @@ function Index() {
         aria-hidden
         className="pointer-events-none fixed inset-0 -z-10 flex items-center justify-center"
       >
-        <svg
-          viewBox="0 0 400 400"
-          className="h-[70vmin] w-[70vmin] opacity-[0.04]"
-        >
-          <circle
-            cx="200"
-            cy="200"
-            r="190"
-            fill="none"
-            stroke="var(--gold)"
-            strokeWidth="2"
-          />
+        <svg viewBox="0 0 400 400" className="h-[70vmin] w-[70vmin] opacity-[0.04]">
+          <circle cx="200" cy="200" r="190" fill="none" stroke="var(--gold)" strokeWidth="2" />
           <text
             x="50%"
             y="54%"
@@ -165,14 +233,7 @@ function Index() {
           >
             IM
           </text>
-          <line
-            x1="120"
-            y1="280"
-            x2="280"
-            y2="280"
-            stroke="var(--gold)"
-            strokeWidth="2"
-          />
+          <line x1="120" y1="280" x2="280" y2="280" stroke="var(--gold)" strokeWidth="2" />
         </svg>
       </div>
 
@@ -183,10 +244,7 @@ function Index() {
           <Link to="/" className="text-primary">
             Início
           </Link>
-          <Link
-            to="/base"
-            className="text-muted-foreground transition hover:text-foreground"
-          >
+          <Link to="/base" className="text-muted-foreground transition hover:text-foreground">
             Base
           </Link>
         </nav>
@@ -250,34 +308,44 @@ function Index() {
             {/* Sidebar */}
             <aside className="border-b border-border p-5 md:border-b-0 md:border-r">
               <button
-                onClick={() => setMessages([])}
-                className="inline-flex items-center gap-2 text-sm font-medium text-foreground transition hover:text-primary"
+                onClick={newConversation}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium text-foreground transition hover:border-primary/60 hover:text-primary"
               >
                 <Plus className="h-4 w-4" /> Nova conversa
               </button>
               <p className="mt-6 text-xs uppercase tracking-wider text-muted-foreground">
-                Conversas recentes
+                Conversas
               </p>
-              <ul className="mt-3 space-y-1">
-                {(history.length ? history : SUGGESTIONS).map((h, i) => (
-                  <li key={h + i}>
+              <ul className="mt-3 max-h-[420px] space-y-1 overflow-y-auto pr-1">
+                {conversations.length === 0 && (
+                  <li className="px-2 py-2 text-xs text-muted-foreground">
+                    Nenhuma conversa ainda.
+                  </li>
+                )}
+                {conversations.map((c) => (
+                  <li key={c.id} className="group flex items-center gap-1">
                     <button
-                      onClick={() => send(h)}
+                      onClick={() => openConversation(c.id)}
                       className={
-                        "block w-full truncate rounded-lg px-3 py-2 text-left text-sm transition " +
-                        (i === 0
+                        "flex-1 truncate rounded-lg px-3 py-2 text-left text-sm transition " +
+                        (c.id === activeId
                           ? "bg-accent/30 text-foreground"
                           : "text-muted-foreground hover:bg-secondary hover:text-foreground")
                       }
+                      title={c.title}
                     >
-                      {h}
+                      {c.title}
+                    </button>
+                    <button
+                      onClick={() => removeConversation(c.id)}
+                      className="rounded p-1 text-muted-foreground opacity-0 transition hover:text-destructive group-hover:opacity-100"
+                      aria-label="Excluir conversa"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   </li>
                 ))}
               </ul>
-              <button className="mt-6 inline-flex items-center gap-1 text-xs text-muted-foreground transition hover:text-primary">
-                Ver todas <ArrowUpRight className="h-3 w-3" />
-              </button>
             </aside>
 
             {/* Chat area */}
@@ -314,7 +382,7 @@ function Index() {
                         </div>
                       </div>
                     </div>
-                  )
+                  ),
                 )}
                 {loading && (
                   <div className="flex items-center gap-2 text-sm text-primary">
@@ -361,5 +429,10 @@ function Index() {
 
 function nowHHMM() {
   const d = new Date();
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
+function formatTime(iso: string) {
+  const d = new Date(iso);
   return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 }
