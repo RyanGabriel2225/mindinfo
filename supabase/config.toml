@@ -1,1 +1,4 @@
 project_id = "bukptxmknylmzywnysjl"
+
+[functions.especializacao-info]
+verify_jwt = false

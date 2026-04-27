@@ -1,9 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft, Lightbulb, Loader2, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
-import { buscarEspecializacao } from "@/server/especializacao.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 const CATEGORIAS_LABEL: Record<string, string> = {
   medicos: "Médicos",
@@ -43,7 +42,6 @@ function descodificar(slug: string) {
 
 function EspecializacaoPage() {
   const { categoria, especializacao } = Route.useParams();
-  const buscar = useServerFn(buscarEspecializacao);
 
   const nome = descodificar(especializacao);
   const categoriaLabel = CATEGORIAS_LABEL[categoria] ?? categoria;
@@ -58,16 +56,24 @@ function EspecializacaoPage() {
     setError(null);
     setConteudo("");
 
-    buscar({ data: { categoria: categoriaLabel, especializacao: nome } })
-      .then((res) => {
+    supabase.functions
+      .invoke("especializacao-info", {
+        body: { categoria: categoriaLabel, especializacao: nome },
+      })
+      .then(({ data, error: invokeError }) => {
         if (!mounted) return;
 
-        if (res.error) {
-          setError(res.error);
+        if (invokeError) {
+          setError("Erro ao buscar informações.");
           return;
         }
 
-        setConteudo(res.conteudo);
+        if (data?.error) {
+          setError(data.error);
+          return;
+        }
+
+        setConteudo(data?.conteudo ?? "");
       })
       .catch(() => {
         if (mounted) setError("Erro ao buscar informações.");
@@ -79,7 +85,7 @@ function EspecializacaoPage() {
     return () => {
       mounted = false;
     };
-  }, [buscar, categoriaLabel, nome]);
+  }, [categoriaLabel, nome]);
 
   return (
     <>
