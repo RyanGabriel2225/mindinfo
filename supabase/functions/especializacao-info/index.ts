@@ -42,26 +42,78 @@ serve(async (req) => {
       );
     }
 
-    const prompt = `Forneça informações diretas e objetivas sobre a especialização "${especializacao}" da área de "${categoria}".
+    const prompt = `Gere um conteúdo COMPLETO e DETALHADO sobre a especialidade "${especializacao}" da área de "${categoria}".
 
-Responda em português brasileiro, em markdown, de forma concisa, com as seguintes seções:
+Adapte TODO o conteúdo especificamente para "${especializacao}" — NÃO use exemplos genéricos de outras especialidades. Responda em português brasileiro, em markdown, usando EXATAMENTE a estrutura abaixo (8 seções com ## e subsecções com ###). Seja específico, técnico e prático, evitando redundâncias e generalidades.
 
-## Visão geral
-Um parágrafo curto explicando o que é a especialização.
+## 1. Conheça a Especialidade
+Explique o que é a especialidade "${especializacao}", nessa ordem, em bullets:
+- **O que faz na prática:** descrição objetiva (1-2 linhas).
+- **Principais atendimentos:** lista dos casos/procedimentos mais frequentes.
+- **Perfil dos pacientes:** que tipo de pessoa/animal/cliente procura esse profissional.
 
-## Formação e atuação
-Breve descrição sobre formação necessária e onde o profissional atua.
+## 2. Áreas de Atuação
+Liste 3 frentes/subáreas principais dessa especialidade. Para cada uma, dê um nome em **negrito** seguido de uma explicação curta do que o profissional faz nela.
 
-## Principais áreas de atuação
-Lista de 5 a 7 áreas/procedimentos que o profissional realiza.
+## 3. Formação e Atuação
+Em bullets:
+- **Formação e tempo médio:** graduação + especialização + tempo total.
+- **Rotina prática:** como é o dia a dia real.
+- **Onde mais gasta tempo e energia:** o que consome mais esforço mental/físico na rotina.
 
-## Termos usados na área
-Liste exatamente 5 termos, gírias, abreviações ou expressões informais que os profissionais dessa especialidade usam no dia a dia para se referir a coisas do trabalho deles (pacientes, procedimentos, equipamentos, situações, colegas, etc.) — o jeito que eles realmente falam entre si, não os termos técnicos formais do livro. Para cada termo, traga o nome em **negrito** seguido de uma explicação curta (1 linha) do que querem dizer com aquilo na prática.
+## 4. Principais Técnicas da Área
+Liste 3 técnicas/procedimentos reais dessa especialidade. Para CADA UMA use este formato:
+- Nome da técnica em **negrito**
+  - **O que é:** descrição.
+  - **Passo a passo:** etapas resumidas separadas por →.
+  - **Quando é usada:** indicação clínica.
+  - **Nível:** Básico, Intermediário ou Avançado.
+  - **Bom vs Ruim:** o que diferencia um profissional bom de um ruim executando essa técnica.
 
-## Curiosidades
-2 ou 3 curiosidades interessantes sobre a área.
+## 5. Ambiente e Materiais do Dia a Dia
+Liste 3 equipamentos/itens típicos do ambiente de trabalho. Para CADA UM:
+- Nome em **negrito**
+  - **O que é:** descrição.
+  - **Para que serve:** função.
+  - **Como é usado:** uso prático.
+  - **Insight:** uma observação de bastidor que só quem trabalha na área sabe.
 
-Seja direto, técnico e evite redundâncias.`;
+## 6. Materiais Essenciais para Atuar
+Descreva o kit/ferramenta INDISPENSÁVEL sem o qual o profissional não consegue atuar:
+- Nome em **negrito**
+  - **Função:** para que serve.
+  - **Indispensável:** por que é obrigatório ter.
+  - **Formação:** se o profissional já sai da faculdade com ele ou precisa comprar depois.
+  - **Status:** o que ter esse item indica sobre o nível do profissional.
+
+## 7. Termos e Jargões da Rotina Profissional
+Liste de 5 a 6 termos, gírias, abreviações ou expressões INFORMAIS que os profissionais dessa especialidade usam entre si no dia a dia (não termos de livro — o jeito que eles REALMENTE falam no consultório/hospital/clínica). Para cada um: nome em **negrito** seguido de uma explicação curta (1 linha) do que querem dizer com aquilo na prática.
+
+## 8. Oportunidades de Infoproduto
+
+### 8.1 Dominando a Técnica (para profissionais)
+- **Nome:** nome comercial do curso.
+- **Público:** para quem é.
+- **Transformação:** o que o aluno passa a conseguir fazer.
+- **Duração:** tempo estimado.
+- **O que aprende:** principais módulos/conteúdos.
+
+### 8.2 Gestão, Marketing e Vendas (para profissionais)
+- **Nome:** nome comercial do curso.
+- **Público:** para quem é.
+- **Transformação:** o que muda no negócio do profissional.
+- **Duração:** tempo estimado.
+- **O que melhora:** áreas da gestão/marketing que avançam.
+
+### 8.3 Pacientes de Alto Valor (para pacientes/clientes finais)
+- **Nome:** nome comercial do produto.
+- **Público:** para quem é.
+- **Problema resolvido:** dor concreta que ele resolve.
+- **Transformação:** resultado prático na vida do paciente.
+- **Duração:** tempo do acompanhamento.
+- **Por que pagaria caro:** motivo emocional/prático que justifica o ticket alto.
+
+IMPORTANTE: mantenha EXATAMENTE os títulos numerados (## 1., ## 2., ... ## 8.) e as subsecções (### 8.1, ### 8.2, ### 8.3). Todo o conteúdo deve ser adaptado e verdadeiro para "${especializacao}" dentro de "${categoria}".`;
 
     const res = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
