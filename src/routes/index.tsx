@@ -274,7 +274,7 @@ function Index() {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Pesquise nichos"
+            placeholder="Duvidas sobre nichos..."
             className="flex-1 bg-transparent px-2 py-3 text-foreground outline-none placeholder:text-muted-foreground"
           />
           <button
