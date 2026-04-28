@@ -30,8 +30,8 @@
   --color-ring: var(--ring);
   --color-gold: var(--gold);
   --color-emerald-deep: var(--emerald-deep);
-  --font-display: "Playfair Display", serif;
-  --font-sans: "Poppins", sans-serif;
+  --font-display: "Fraunces", "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 :root {
