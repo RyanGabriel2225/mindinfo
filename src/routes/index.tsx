@@ -257,12 +257,11 @@ function Index() {
       {/* HERO */}
       <section className="mx-auto max-w-5xl px-6 pt-16 text-center">
         <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
-          <span className="block text-foreground">Busque menos.</span>
-          <span className="block text-primary">Entenda mais.</span>
+          <span className="block text-foreground">Domine seu nicho.</span>
+          <span className="block text-primary">Lidere o mercado.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          O InfoMind combina inteligência artificial com resultados da web para
-          entregar respostas claras, rápidas e confiáveis.
+          Conhecimento é o atalho para quem não aceita ficar na média.
         </p>
 
         {/* Search bar */}
