@@ -274,7 +274,7 @@ function Index() {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Pergunte qualquer coisa..."
+            placeholder="Pesquise nichos"
             className="flex-1 bg-transparent px-2 py-3 text-foreground outline-none placeholder:text-muted-foreground"
           />
           <button
@@ -286,19 +286,6 @@ function Index() {
             Buscar
           </button>
         </form>
-
-        {/* Suggestion chips */}
-        <div className="mx-auto mt-6 flex max-w-4xl flex-wrap items-center justify-center gap-3">
-          {SUGGESTIONS.map((s) => (
-            <button
-              key={s}
-              onClick={() => send(s)}
-              className="rounded-full border border-border bg-card/40 px-4 py-2 text-xs text-muted-foreground transition hover:border-primary/60 hover:text-primary"
-            >
-              {s}
-            </button>
-          ))}
-        </div>
       </section>
 
       {/* CHAT PANEL */}
