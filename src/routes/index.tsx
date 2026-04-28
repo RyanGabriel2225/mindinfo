@@ -257,11 +257,11 @@ function Index() {
       {/* HERO */}
       <section className="mx-auto max-w-5xl px-6 pt-16 text-center">
         <h1 className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
-          <span className="block text-foreground">Domine seu nicho.</span>
-          <span className="block text-primary">Lidere o mercado.</span>
+          <span className="block text-foreground">Vá além do óbvio.</span>
+          <span className="block text-primary">Construa seu futuro.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Conhecimento é o atalho para quem não aceita ficar na média.
+          Pequenos passos hoje constroem grandes conquistas amanhã.
         </p>
 
         {/* Search bar */}
