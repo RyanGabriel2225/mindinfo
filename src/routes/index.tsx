@@ -200,27 +200,16 @@ function Index() {
         }}
       />
 
-      {/* IM watermark logo */}
+      {/* Logo watermark */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 -z-10 flex items-center justify-center"
       >
-        <svg viewBox="0 0 400 400" className="h-[70vmin] w-[70vmin] opacity-[0.04]">
-          <circle cx="200" cy="200" r="190" fill="none" stroke="var(--gold)" strokeWidth="2" />
-          <text
-            x="50%"
-            y="54%"
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fontFamily="Playfair Display, serif"
-            fontSize="160"
-            fill="var(--gold)"
-            fontWeight="700"
-          >
-            IM
-          </text>
-          <line x1="120" y1="280" x2="280" y2="280" stroke="var(--gold)" strokeWidth="2" />
-        </svg>
+        <img
+          src={infomindLogo}
+          alt=""
+          className="h-[70vmin] w-[70vmin] object-contain opacity-[0.04]"
+        />
       </div>
 
       {/* NAV */}
