@@ -61,8 +61,8 @@ function Logo() {
         className="h-12 w-auto object-contain"
       />
       <span
-        style={{ fontFamily: "'Poppins', sans-serif" }}
-        className="text-xl font-semibold tracking-wide text-foreground"
+        style={{ fontFamily: "'Poppins', sans-serif", color: "#e2b984" }}
+        className="text-xl font-semibold tracking-wide"
       >
         INFOMIND
       </span>
