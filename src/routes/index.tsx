@@ -17,6 +17,7 @@ import {
   type Conversation,
 } from "@/lib/conversations";
 import wavesBg from "@/assets/waves-bg.jpg";
+import infomindLogo from "@/assets/infomind-logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,28 +55,13 @@ const SUGGESTIONS = [
 
 function Logo() {
   return (
-    <div className="flex items-center gap-3">
-      <svg viewBox="0 0 48 48" className="h-10 w-10" aria-hidden>
-        <circle cx="24" cy="24" r="22" fill="none" stroke="var(--gold)" strokeWidth="1.2" />
-        <text
-          x="50%"
-          y="54%"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontFamily="Playfair Display, serif"
-          fontSize="18"
-          fill="var(--gold)"
-          fontWeight="700"
-        >
-          IM
-        </text>
-        <line x1="14" y1="34" x2="34" y2="34" stroke="var(--gold)" strokeWidth="0.8" />
-      </svg>
-      <span className="font-display text-2xl font-bold tracking-tight">
-        <span className="text-foreground">Info</span>
-        <span className="text-primary">Mind</span>
-      </span>
-    </div>
+    <Link to="/" className="flex items-center gap-2">
+      <img
+        src={infomindLogo}
+        alt="InfoMind"
+        className="h-12 w-auto object-contain"
+      />
+    </Link>
   );
 }
 
@@ -214,27 +200,16 @@ function Index() {
         }}
       />
 
-      {/* IM watermark logo */}
+      {/* Logo watermark */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 -z-10 flex items-center justify-center"
       >
-        <svg viewBox="0 0 400 400" className="h-[70vmin] w-[70vmin] opacity-[0.04]">
-          <circle cx="200" cy="200" r="190" fill="none" stroke="var(--gold)" strokeWidth="2" />
-          <text
-            x="50%"
-            y="54%"
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fontFamily="Playfair Display, serif"
-            fontSize="160"
-            fill="var(--gold)"
-            fontWeight="700"
-          >
-            IM
-          </text>
-          <line x1="120" y1="280" x2="280" y2="280" stroke="var(--gold)" strokeWidth="2" />
-        </svg>
+        <img
+          src={infomindLogo}
+          alt=""
+          className="h-[70vmin] w-[70vmin] object-contain opacity-[0.04]"
+        />
       </div>
 
       {/* NAV */}
