@@ -131,9 +131,7 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    background-image:
-      radial-gradient(circle at 80% 100%, oklch(0.80 0.08 75 / 0.04), transparent 60%);
-    background-attachment: fixed;
+    background-image: none;
   }
   h1, h2, h3 { font-family: var(--font-display); }
 }
