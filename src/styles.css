@@ -38,15 +38,15 @@
   --radius: 0.75rem;
 
   /* InfoMind palette — Bege #e2b984 + Verdes #021816 / #102523 */
-  --background: oklch(0.135 0.012 195);        /* #021816 verde profundo */
+  --background: oklch(0.189786 0.030001 187.204); /* #021816 verde profundo */
   --foreground: oklch(0.96 0.01 80);           /* off-white quente */
   --card: oklch(0.27 0.015 195);               /* #102523 */
   --card-foreground: oklch(0.96 0.01 80);
   --popover: oklch(0.27 0.015 195);
   --popover-foreground: oklch(0.96 0.01 80);
 
-  --primary: oklch(0.80 0.08 75);              /* #e2b984 bege */
-  --primary-foreground: oklch(0.135 0.012 195);
+  --primary: oklch(0.809820 0.083643 73.334);  /* #e2b984 bege */
+  --primary-foreground: oklch(0.189786 0.030001 187.204);
 
   --secondary: oklch(0.27 0.015 195);          /* #102523 */
   --secondary-foreground: oklch(0.96 0.01 80);
@@ -54,18 +54,18 @@
   --muted: oklch(0.27 0.015 195);
   --muted-foreground: oklch(0.72 0.02 80);
 
-  --accent: oklch(0.80 0.08 75);               /* bege como accent */
-  --accent-foreground: oklch(0.135 0.012 195);
+  --accent: oklch(0.809820 0.083643 73.334);   /* bege como accent */
+  --accent-foreground: oklch(0.189786 0.030001 187.204);
 
   --destructive: oklch(0.62 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
 
   --border: oklch(0.27 0.015 195);
   --input: oklch(0.22 0.015 195);
-  --ring: oklch(0.80 0.08 75);
+  --ring: oklch(0.809820 0.083643 73.334);
 
-  --gold: oklch(0.80 0.08 75);
-  --gold-stroke: 0.80 0.08 75;
+  --gold: oklch(0.809820 0.083643 73.334);
+  --gold-stroke: 0.809820 0.083643 73.334;
   --emerald-deep: oklch(0.27 0.015 195);
 
   --chart-1: var(--gold);
@@ -74,10 +74,10 @@
   --chart-4: oklch(0.70 0.08 75);
   --chart-5: oklch(0.40 0.02 195);
 
-  --sidebar: oklch(0.135 0.012 195);
+  --sidebar: oklch(0.189786 0.030001 187.204);
   --sidebar-foreground: oklch(0.96 0.01 80);
   --sidebar-primary: var(--gold);
-  --sidebar-primary-foreground: oklch(0.135 0.012 195);
+  --sidebar-primary-foreground: oklch(0.189786 0.030001 187.204);
   --sidebar-accent: oklch(0.27 0.015 195);
   --sidebar-accent-foreground: oklch(0.96 0.01 80);
   --sidebar-border: oklch(0.32 0.015 195);
@@ -85,15 +85,15 @@
 }
 
 .dark {
-  --background: oklch(0.135 0.012 195);
+  --background: oklch(0.189786 0.030001 187.204);
   --foreground: oklch(0.96 0.01 80);
   --card: oklch(0.27 0.015 195);
   --card-foreground: oklch(0.96 0.01 80);
   --popover: oklch(0.27 0.015 195);
   --popover-foreground: oklch(0.96 0.01 80);
 
-  --primary: oklch(0.80 0.08 75);
-  --primary-foreground: oklch(0.135 0.012 195);
+  --primary: oklch(0.809820 0.083643 73.334);
+  --primary-foreground: oklch(0.189786 0.030001 187.204);
 
   --secondary: oklch(0.27 0.015 195);
   --secondary-foreground: oklch(0.96 0.01 80);
@@ -101,24 +101,24 @@
   --muted: oklch(0.27 0.015 195);
   --muted-foreground: oklch(0.72 0.02 80);
 
-  --accent: oklch(0.80 0.08 75);
-  --accent-foreground: oklch(0.135 0.012 195);
+  --accent: oklch(0.809820 0.083643 73.334);
+  --accent-foreground: oklch(0.189786 0.030001 187.204);
 
   --destructive: oklch(0.62 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
 
   --border: oklch(0.27 0.015 195);
   --input: oklch(0.22 0.015 195);
-  --ring: oklch(0.80 0.08 75);
+  --ring: oklch(0.809820 0.083643 73.334);
 
-  --gold: oklch(0.80 0.08 75);
-  --gold-stroke: 0.80 0.08 75;
+  --gold: oklch(0.809820 0.083643 73.334);
+  --gold-stroke: 0.809820 0.083643 73.334;
   --emerald-deep: oklch(0.27 0.015 195);
 
-  --sidebar: oklch(0.135 0.012 195);
+  --sidebar: oklch(0.189786 0.030001 187.204);
   --sidebar-foreground: oklch(0.96 0.01 80);
   --sidebar-primary: var(--gold);
-  --sidebar-primary-foreground: oklch(0.135 0.012 195);
+  --sidebar-primary-foreground: oklch(0.189786 0.030001 187.204);
   --sidebar-accent: oklch(0.27 0.015 195);
   --sidebar-accent-foreground: oklch(0.96 0.01 80);
   --sidebar-border: oklch(0.27 0.015 195);
@@ -131,9 +131,7 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    background-image:
-      radial-gradient(circle at 80% 100%, oklch(0.80 0.08 75 / 0.04), transparent 60%);
-    background-attachment: fixed;
+    background-image: none;
   }
   h1, h2, h3 { font-family: var(--font-display); }
 }

@@ -16,8 +16,7 @@ import {
   deriveTitle,
   type Conversation,
 } from "@/lib/conversations";
-import wavesBg from "@/assets/waves-bg.jpg";
-import infomindLogo from "@/assets/infomind-logo.png";
+import infomindLogo from "@/assets/infomind-logo-transparent.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -187,19 +186,6 @@ function Index() {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Wave background */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[700px] opacity-50"
-        style={{
-          backgroundImage: `url(${wavesBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          maskImage: "linear-gradient(to bottom, black 40%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to bottom, black 40%, transparent 100%)",
-        }}
-      />
-
       {/* Logo watermark */}
       <div
         aria-hidden

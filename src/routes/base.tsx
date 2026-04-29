@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { SignOutButton } from "@/components/SignOutButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import infomindLogo from "@/assets/infomind-logo.png";
+import infomindLogo from "@/assets/infomind-logo-transparent.png";
 
 export const Route = createFileRoute("/base")({
   component: BaseLayout,
