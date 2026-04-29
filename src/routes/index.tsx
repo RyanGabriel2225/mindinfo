@@ -17,6 +17,7 @@ import {
   type Conversation,
 } from "@/lib/conversations";
 import wavesBg from "@/assets/waves-bg.jpg";
+import infomindLogo from "@/assets/infomind-logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,28 +55,13 @@ const SUGGESTIONS = [
 
 function Logo() {
   return (
-    <div className="flex items-center gap-3">
-      <svg viewBox="0 0 48 48" className="h-10 w-10" aria-hidden>
-        <circle cx="24" cy="24" r="22" fill="none" stroke="var(--gold)" strokeWidth="1.2" />
-        <text
-          x="50%"
-          y="54%"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontFamily="Playfair Display, serif"
-          fontSize="18"
-          fill="var(--gold)"
-          fontWeight="700"
-        >
-          IM
-        </text>
-        <line x1="14" y1="34" x2="34" y2="34" stroke="var(--gold)" strokeWidth="0.8" />
-      </svg>
-      <span className="font-display text-2xl font-bold tracking-tight">
-        <span className="text-foreground">Info</span>
-        <span className="text-primary">Mind</span>
-      </span>
-    </div>
+    <Link to="/" className="flex items-center gap-2">
+      <img
+        src={infomindLogo}
+        alt="InfoMind"
+        className="h-12 w-auto object-contain"
+      />
+    </Link>
   );
 }
 
