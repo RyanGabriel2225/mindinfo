@@ -61,10 +61,11 @@ function Logo() {
         className="h-12 w-auto object-contain"
       />
       <span
-        style={{ fontFamily: "'Poppins', sans-serif", color: "#e2b984" }}
+        style={{ fontFamily: "'Poppins', sans-serif" }}
         className="text-xl font-semibold tracking-wide"
       >
-        INFOMIND
+        <span style={{ color: "#e2b984" }}>INFO</span>
+        <span style={{ color: "#ffffff" }}>MIND</span>
       </span>
     </Link>
   );
