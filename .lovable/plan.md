@@ -1,38 +1,64 @@
-# Plano: Novo formato de conteúdo das especialidades
 
-Vou reestruturar o prompt enviado para a IA na página de detalhe de cada especialidade (Base → Médicos / Odontologia / Veterinários / Multidisciplinares → clicar em um nicho) para que o conteúdo gerado siga **exatamente** o modelo de 8 seções que você mandou (usando Estomatologia como referência de formato), adaptado dinamicamente para cada especialidade clicada.
+## Objetivo
 
-## O que muda
+Tornar 10 especialidades veterinárias **estáticas** (carregamento instantâneo, sem custo de IA), usando o conteúdo exato do PDF enviado, com layout de **6 seções** (formato do PDF, com tabelas e coluna "Tradução prática"). Para o resto das especializações, mantém o fluxo atual via IA.
 
-**Único arquivo editado:** `supabase/functions/especializacao-info/index.ts`
+## Especialidades cobertas (do PDF)
 
-Vou substituir o prompt atual (que pede apenas: Visão geral, Formação, Áreas, Termos e Curiosidades) por um prompt novo que exige as 8 seções no formato detalhado abaixo.
+1. Radiologia Veterinária (Imaginologia)
+2. Cirurgia Geral Veterinária
+3. Anestesiologia Veterinária
+4. Clínico Geral Veterinário
+5. Oncologia Veterinária
+6. Dermatologia Veterinária
+7. Oftalmologia Veterinária
+8. Ortopedia Veterinária
+9. Patologia Veterinária
+10. Cardiologia Veterinária
 
-## Nova estrutura que a IA vai gerar
+## Como vai funcionar para o usuário
 
-Para **qualquer** especialidade de **qualquer** categoria (Médicos, Odontologia, Veterinários, Multidisciplinares), o conteúdo virá com:
+1. Usuário clica em uma das 10 especialidades vet → página abre **instantânea** com o conteúdo do PDF (6 seções, tabelas com "Tradução prática", termos técnicos, oportunidades de infoproduto).
+2. No topo aparece um selo "📖 Conteúdo curado" (em vez de "Gerado por IA").
+3. Abaixo do conteúdo, botão **"✨ Complementar com IA"** — só dispara a edge function se o usuário clicar.
+4. Para qualquer outra especialidade (médicos, odontologia, diversos, ou vet fora da lista) → comportamento atual (IA gera tudo automaticamente).
 
-1. **Conheça a Especialidade** — o que é, o que faz na prática, principais atendimentos, perfil dos pacientes.
-2. **Áreas de Atuação** — 3 frentes principais, cada uma explicada.
-3. **Formação e Atuação** — formação + tempo médio, rotina prática, onde mais gasta tempo/energia.
-4. **Principais Técnicas da Área** — 3 técnicas, cada uma com: o que é, passo a passo, quando é usada, nível (básico/intermediário/avançado) e "bom vs ruim".
-5. **Ambiente e Materiais do Dia a Dia** — 3 itens com: o que é, para que serve, como é usado, insight.
-6. **Materiais Essenciais para Atuar** — kit/ferramenta indispensável com função, se é indispensável, se sai da formação, o que o status dele indica.
-7. **Termos e Jargões da Rotina Profissional** — 5 a 6 termos/gírias reais do dia a dia (não livro-texto), cada um com explicação curta de como é usado na prática.
-8. **Oportunidades de Infoproduto** — 3 ideias:
-   - 8.1 Dominando a técnica (para profissionais)
-   - 8.2 Gestão, Marketing e Vendas (para profissionais)
-   - 8.3 Pacientes de Alto Valor (para pacientes)
-   Cada uma com: Nome, Público, Transformação/Problema resolvido, Duração, O que aprende / Por que pagaria caro.
+## Estrutura das 6 seções (exata do PDF)
+
+1. **Conheça a Especialidade** — descrição técnica + tradução prática + atendimentos + perfil dos pacientes
+2. **Áreas de Atuação** — tabela com 4 colunas (Área | O que faz | Tradução prática | Demanda)
+3. **Formação e Atuação** — anos de formação, obrigatoriedade, rotina prática
+4. **Principais Técnicas da Área** — tabela com 4 colunas (Técnica | O que é | Tradução prática | Uso)
+5. **Termos Técnicos da Área** — lista de termos com tradução prática em itálico
+6. **Oportunidades de Infoproduto** — 3 subsecções (Dominando a Técnica / Gestão e Vendas / Pacientes de Alto Valor)
 
 ## Detalhes técnicos
 
-- O prompt novo deixa claro que é para **adaptar o conteúdo à especialidade específica** recebida (`categoria` + `especializacao`), não copiar Estomatologia.
-- Mantém saída em **markdown** com `##` para cada seção numerada e `###` para subsecções (ex.: 8.1, 8.2, 8.3), para que o CSS atual de `[&_h2]` e `[&_h3]` em `base.$categoria.$especializacao.tsx` já renderize bonito sem alterar o frontend.
-- Mantém **português brasileiro**, mesmo modelo (`google/gemini-2.5-flash`), mesma função edge, mesmo fluxo de erro.
-- Como o conteúdo ficou bem maior, vou aumentar implicitamente o espaço de resposta confiando no modelo (sem `max_tokens` — Gemini 2.5 Flash comporta fácil).
-- **Nada muda** na página de lista da base (`base.index.tsx`), nas rotas, ou no layout da página de detalhe — apenas o prompt dentro da edge function.
+**Novos arquivos:**
+- `src/data/vet-especialidades.ts` — exporta um `Record<slug, EspecialidadeVet>` tipado com o conteúdo das 10 especialidades transcrito do PDF (texto fiel, incluindo termos como "OSH", "Cistocentese", etc.)
+- `src/components/EspecialidadeEstatica.tsx` — componente que renderiza as 6 seções do tipo `EspecialidadeVet` (cabeçalhos, parágrafos com "Tradução prática" em destaque, tabelas estilizadas com Tailwind, listas de termos)
 
-## Resultado esperado
+**Arquivos editados:**
+- `src/routes/base.$categoria.$especializacao.tsx`:
+  - Antes do `useEffect`, faz `lookup` em `vet-especialidades.ts` pelo slug.
+  - Se encontrado: renderiza `<EspecialidadeEstatica>` direto, **sem** chamar a edge function. Selo muda para "Conteúdo curado".
+  - Adiciona estado `aiComplemento` + botão "Complementar com IA" que dispara a chamada existente sob demanda e renderiza o markdown abaixo.
+  - Se não encontrado: comportamento atual permanece intacto.
 
-Ao clicar em qualquer nicho (ex.: Cardiologia, Ortodontia, Radiologista veterinário, Fisioterapeuta Osteopata etc.), a página vai mostrar todas as 8 seções preenchidas com informações daquela especialidade específica, no mesmo nível de detalhe do exemplo de Estomatologia que você enviou.
+**O que NÃO muda:**
+- Edge function `especializacao-info` continua igual.
+- Outras categorias (médicos, odontologia, diversos) continuam 100% via IA.
+- Lista de especialidades em `base.index.tsx` permanece a mesma.
+
+## Estilo visual
+
+- Tabelas com cabeçalho em `bg-primary/10`, bordas suaves, coluna "Tradução prática" em itálico com cor `text-muted-foreground` para diferenciar do técnico.
+- Termos técnicos em lista com **bullet bege** (`#e2b984`), título em negrito branco, tradução em itálico.
+- Cards das oportunidades de infoproduto em grid de 1 coluna (mobile) / 3 colunas (desktop).
+
+## Impacto / benefícios
+
+- Zero custo de IA nessas 10 páginas.
+- Carregamento instantâneo (sem loader).
+- Conteúdo revisado e idêntico ao material oficial do MedDecoder.
+- Usuário ainda pode pedir IA se quiser aprofundar.
