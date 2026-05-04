@@ -14,14 +14,15 @@ export type Termo = {
   pratica: string;
 };
 
-export type Infoproduto = {
-  publico: string;
-  dores: string;
+export type IdeiaInfoproduto = {
   nome: string;
-  problema: string;
-  estrutura: string;
-  entregaveis: string;
-  duracao: string;
+  descricao: string;
+};
+
+export type InfoIdeias = {
+  tecnica: IdeiaInfoproduto[];
+  gestao: IdeiaInfoproduto[];
+  altoValor: IdeiaInfoproduto[];
 };
 
 export type EspecialidadeVet = {
@@ -48,10 +49,8 @@ export type EspecialidadeVet = {
   termos: Termo[];
 
   // 6. Infoprodutos
-  infoTecnica: Infoproduto;
-  infoGestao: Infoproduto;
-  infoTutores: Infoproduto;
-  tutoresLabel?: string; // Para casos especiais (ex: Patologia → Criadores B2B)
+  infoIdeias: InfoIdeias;
+  altoValorLabel?: string; // Para casos especiais (ex: Patologia → Criadores B2B)
 };
 
 export const VET_ESPECIALIDADES: Record<string, EspecialidadeVet> = {
@@ -139,36 +138,73 @@ export const VET_ESPECIALIDADES: Record<string, EspecialidadeVet> = {
         pratica: "O quadril frouxo que dá muita dor em cães grandes.",
       },
     ],
-    infoTecnica: {
-      publico: "Vets com 1-4 anos.",
-      dores:
-        "Medo de errar laudo de ultrassom; Insegurança em USG de pequenos animais exóticos.",
-      nome: "Mentoria USG Vet Blindado.",
-      problema: "Travar na hora de laudar achados atípicos.",
-      estrutura: "Aulas de varredura e rounds de imagens.",
-      entregaveis: "Modelos de laudos pré-prontos e guias de botão da máquina.",
-      duracao: "6 meses.",
-    },
-    infoGestao: {
-      publico: "Imaginologistas Volantes.",
-      dores:
-        "Escravidão da agenda; Clínicas parceiras atrasando repasses; Desgaste físico.",
-      nome: "Volante High-Ticket.",
-      problema:
-        "Vive no trânsito, cobra barato o exame e não consegue escalar o negócio.",
-      estrutura: "Como precificar o exame e captar grandes clínicas (B2B).",
-      entregaveis: "Contratos de parceria B2B, tabela de precificação.",
-      duracao: "6 meses.",
-    },
-    infoTutores: {
-      publico: "Criadores profissionais de cães de raça.",
-      dores:
-        "Perda de ninhadas caras por falta de monitoramento; Ansiedade na gestação.",
-      nome: "Acompanhamento Gestacional Pet Prime.",
-      problema: "Medo do sofrimento fetal e morte dos filhotes.",
-      estrutura: "Pacote de USGs programados com acompanhamento vital.",
-      entregaveis: "Calendário de vacinação/desmame em PDF, contato de urgência.",
-      duracao: "3 meses.",
+    infoIdeias: {
+      tecnica: [
+      {
+        nome: "Expert em Ultrassonografia Abdominal Vet",
+        descricao: "Capacitação avançada para o clínico ou radiologista iniciante dominar a varredura abdominal completa, identificando alterações sutis em órgãos parenquimatosos e cavidade.",
+      },
+      {
+        nome: "Tórax Sem Mistério: Radiologia Avançada",
+        descricao: "Domine a interpretação de radiografias torácicas complexas, aprendendo a diferenciar padrões pulmonares e silhuetas cardíacas com segurança e precisão.",
+      },
+      {
+        nome: "Doppler Dominado: Do Básico ao Avançado",
+        descricao: "Imersão técnica no Doppler de grandes vasos e órgãos abdominais, capacitando o veterinário a realizar exames hemodinâmicos detalhados.",
+      },
+      {
+        nome: "Imagens em Ortopedia: Radiologia e US Musculoesquelética",
+        descricao: "Curso focado na anatomia radiográfica e ultrassonográfica do sistema musculoesquelético para diagnósticos rápidos de claudicações e traumas ortopédicos.",
+      },
+      {
+        nome: "Intervencionismo Guiado por Imagem na Prática",
+        descricao: "Aprenda a realizar biópsias e citologias guiadas por ultrassom com máxima segurança, agregando este diferencial diagnóstico ao seu portfólio de serviços.",
+      },
+      ],
+      gestao: [
+      {
+        nome: "Lucro no Laudo: Precificação Estratégica na Imagem",
+        descricao: "Guia prático para precificar laudos e serviços de imagem com base em custos operacionais e margem de lucro real, elevando a percepção de valor do radiologista.",
+      },
+      {
+        nome: "Mestre do Workflow: Eficiência na Radiologia Vet",
+        descricao: "Treinamento focado em produtividade e organização de fluxo de trabalho para que o radiologista consiga laudar com qualidade em menos tempo, otimizando seu dia.",
+      },
+      {
+        nome: "Imagem de Autoridade: Personal Branding para Radiologistas",
+        descricao: "Estratégias de branding e presença digital específicas para especialistas em diagnóstico por imagem aumentarem sua rede de indicações e autoridade local.",
+      },
+      {
+        nome: "Gestão de Centros de Imagem Veterinários",
+        descricao: "Como estruturar e gerir uma equipe de radiologistas itinerantes ou em clínica fixa, focando em padronização de laudos e gestão de processos.",
+      },
+      {
+        nome: "Negociador de Laudos: Parcerias de Sucesso",
+        descricao: "Técnicas de comunicação e persuasão para o radiologista negociar melhores parcerias com clínicas e hospitais, garantindo fidelidade dos parceiros.",
+      },
+      ],
+      altoValor: [
+      {
+        nome: "Ouro Diagnóstico: Exóticos e Silvestres",
+        descricao: "Treinamento focado no atendimento de pets exóticos e silvestres, ensinando o radiologista a cobrar o valor justo por exames complexos em espécies não convencionais.",
+      },
+      {
+        nome: "Laudo VIP: Imagem Premium em Domicílio",
+        descricao: "Metodologia para realizar ultrassonografia e radiografia em domicílio com padrão luxo, focando em proprietários que buscam conveniência e exclusividade acima do preço.",
+      },
+      {
+        nome: "Protocolo Longevidade: Check-up por Imagem High-Ticket",
+        descricao: "Capacitação técnica e comercial para oferecer Check-ups de Imagem Preventivos de alta performance, transformando o diagnóstico precoce em uma constante de faturamento.",
+      },
+      {
+        nome: "Consultoria de Imagem para Centros de Elite",
+        descricao: "Estratégias de posicionamento para se tornar a referência de hospitais de alto padrão, garantindo a indicação de casos complexos e cirurgias de grande porte.",
+      },
+      {
+        nome: "Doppler Hunter: Monetizando a Alta Complexidade",
+        descricao: "Aprenda a realizar e precificar exames de alta complexidade, como a dopplerfluxometria avançada, atraindo médicos veterinários especialistas que demandam precisão absoluta.",
+      },
+      ],
     },
   },
 
@@ -259,34 +295,73 @@ export const VET_ESPECIALIDADES: Record<string, EspecialidadeVet> = {
         pratica: "Parar o sangramento durante a cirurgia amarrando as veias.",
       },
     ],
-    infoTecnica: {
-      publico: "Cirurgiões 1-4 anos.",
-      dores:
-        "Pânico de hemorragias ao retirar o baço; Insegurança em enterotomias.",
-      nome: "Bisturi Vet Seguro.",
-      problema: "Formação fraca na prática de tecidos moles avançados.",
-      estrutura: "Aulas de técnica cirúrgica em vídeo.",
-      entregaveis: "Guia de hemostasia de emergência.",
-      duracao: "6 meses.",
-    },
-    infoGestao: {
-      publico: "Cirurgiões Volantes.",
-      dores: "Ganhar 30% da cirurgia e deixar o lucro com a clínica parceira.",
-      nome: "Cirurgião Vet High-Ticket.",
-      problema:
-        "Vender serviço barato por medo de não ser chamado pela clínica.",
-      estrutura: "Como abrir clínica própria ou negociar % maiores.",
-      entregaveis: "Precificação de caixas cirúrgicas.",
-      duracao: "6 meses.",
-    },
-    infoTutores: {
-      publico: "Tutores de pets operados.",
-      dores: "Pânico do cachorro arrancar os pontos de madrugada.",
-      nome: "Pós-Operatório Vet Sem Estresse.",
-      problema: "Medo de complicações graves em casa.",
-      estrutura: "Suporte WhatsApp 30 dias + Guias de curativo.",
-      entregaveis: "PDF de dieta pós-alta, SOS curativo.",
-      duracao: "3 meses.",
+    infoIdeias: {
+      tecnica: [
+      {
+        nome: "Mestres da Reconstrução de Tecidos Moles",
+        descricao: "Capacitação prática para o cirurgião geral dominar as principais técnicas de sutura, retalhos cutâneos e fechamento de feridas complexas em cães e gatos sob qualquer tensão.",
+      },
+      {
+        nome: "Imersão em Cirurgia Abdominal Avançada",
+        descricao: "Treinamento avançado em cirurgias do trato urinário e digestório, focado na prevenção de deiscências e no domínio de técnicas seguras para enterectomias e cistotomias desafiadoras.",
+      },
+      {
+        nome: "Domínio Cirúrgico: Cabeça e Pescoço v2.0",
+        descricao: "Um guia técnico completo sobre anatomia aplicada e manobras cirúrgicas cruciais para o tratamento de afecções no pescoço e cabeça, como otoplastias e glossectomias.",
+      },
+      {
+        nome: "Expert em Síndrome do Braquiocefálico",
+        descricao: "Ensino detalhado de técnicas para correções de fendas palatinas, estenose de narinas e palato mole prolongado, transformando o cirurgião em especialista em vias aéreas superiores.",
+      },
+      {
+        nome: "Cirurgia de Emergência: Do Trauma ao Bloco",
+        descricao: "Protocolos cirúrgicos para o manejo de emergências que chegam no dia a dia, desde a hemostasia rápida em hemoperitônio até a resolução de torções gástricas com segurança.",
+      },
+      ],
+      gestao: [
+      {
+        nome: "Lucratividade na Mesa Cirúrgica",
+        descricao: "Método de precificação específico para procedimentos de tecidos moles, considerando custos de materiais especiais, riscos cirúrgicos e margem de lucro real para cirurgiões autônomos e donos de clínicas.",
+      },
+      {
+        nome: "Posicionamento de Autoridade para Cirurgiões",
+        descricao: "Estratégias de diferenciação no Instagram e LinkedIn para cirurgiões veterinários que desejam ser reconhecidos por colegas e tutores como referências técnicas em sua região.",
+      },
+      {
+        nome: "Gestão de Parcerias e Referenciamento Cirúrgico",
+        descricao: "Aprenda a estruturar o fluxo de indicação cirúrgica, transformando clínicas parceiras em canais recorrentes de pacientes sem depender de descontos, focando em profissionalismo e confiança.",
+      },
+      {
+        nome: "Blindagem Jurídica e Comercial do Cirurgião",
+        descricao: "Documentação completa e estratégias de comunicação assertiva para evitar conflitos judiciais e garantir que o tutor entenda o valor e os riscos do procedimento proposto.",
+      },
+      {
+        nome: "Escala Cirúrgica: Gestão de Tempo e Equipe",
+        descricao: "Manual prático para organizar sua agenda cirúrgica, otimizar o tempo de bloco e gerir sua equipe de auxiliares para escalar o número de procedimentos sem perder a qualidade de vida.",
+      },
+      ],
+      altoValor: [
+      {
+        nome: "Cirurgia Estética e Reconstrutiva Premium",
+        descricao: "Treinamento focado em cirurgias reconstrutivas e plásticas para pets de raças nobres, ensinando o cirurgião a cobrar pelo resultado estético e funcional de excelência em clientes de alto poder aquisitivo.",
+      },
+      {
+        nome: "Master em Cirurgias de Alta Complexidade",
+        descricao: "Aprenda a realizar procedimentos complexos de tórax e abdômen utilizando tecnologias avançadas, posicionando-se como a autoridade máxima para casos referenciados que exigem suporte de alta complexidade.",
+      },
+      {
+        nome: "Cirurgião de Elite: O Plantão High-Ticket",
+        descricao: "Capacitação técnica para triagem e intervenção imediata em pacientes críticos de clínicas de luxo, elevando o valor da sua hora de sobreaviso e a taxa de sucesso em emergências cirúrgicas.",
+      },
+      {
+        nome: "Oncologia Cirúrgica de Alto Valor",
+        descricao: "Domine as técnicas de cirurgia oncológica com margens limpas e reconstrução imediata, tornando-se o cirurgião preferencial para tutores que não medem investimentos no tratamento do câncer animal.",
+      },
+      {
+        nome: "O Cirurgião Volante Particular: Atendimento VIP",
+        descricao: "Um guia para o cirurgião volante firmar parcerias exclusivas com centros diagnósticos e hospitais de luxo, focando em um padrão de atendimento VIP que justifica honorários acima da média.",
+      },
+      ],
     },
   },
 
@@ -379,37 +454,73 @@ export const VET_ESPECIALIDADES: Record<string, EspecialidadeVet> = {
         pratica: "Atacar a dor por vários caminhos de remédios juntos.",
       },
     ],
-    infoTecnica: {
-      publico: "Anestesistas recentes.",
-      dores:
-        "Pavor de parar pets cardíacos; Insegurança em anestesiar braquicefálicos (Pug, Bulldog).",
-      nome: "Mentoria Anestesia Vet Segura.",
-      problema: "Medo do animal morrer na mesa por falha farmacológica.",
-      estrutura: "Estudo de casos e protocolos de TIVA.",
-      entregaveis: "Calculadora de doses em bomba de seringa.",
-      duracao: "6 meses.",
-    },
-    infoGestao: {
-      publico: "Anestesistas Volantes.",
-      dores:
-        "Ser pago por baixo pela clínica; O tutor não entende o valor da anestesia.",
-      nome: "Anestesista de Alto Valor.",
-      problema: "Trabalha na sombra do cirurgião.",
-      estrutura:
-        "Fazer avaliação pré-anestésica cobrada separadamente direto com o tutor.",
-      entregaveis: "Termos de risco anestésico, script de consulta pré.",
-      duracao: "6 meses.",
-    },
-    infoTutores: {
-      publico: "Tutores de pets idosos com artrose crônica (dor constante).",
-      dores:
-        "Cão não levanta mais, chora de dor, toma remédio de farmácia e não melhora.",
-      nome: "Pet Sem Dor 360.",
-      problema: "Qualidade de vida destruída pela dor.",
-      estrutura:
-        "Manejo canabinoide (CBD) e analgésicos avançados com acompanhamento quinzenal.",
-      entregaveis: "Diário de dor do pet.",
-      duracao: "6 meses.",
+    infoIdeias: {
+      tecnica: [
+      {
+        nome: "Mestres do Bloqueio: Locorregional Guiada por USG",
+        descricao: "Curso prático para veterinários que desejam dominar o uso do ultrassom para guiar bloqueios locorregionais, garantindo maior precisão e segurança em cirurgias de membros e tronco.",
+      },
+      {
+        nome: "Monitorização Avançada: Além do Básico na Monitoria",
+        descricao: "Treinamento intensivo em interpretação de curvas de capnografia, pressão invasiva e eletrocardiografia para veterinários que atuam em cirurgias de pacientes críticos (ASA III e IV).",
+      },
+      {
+        nome: "Domínio TIVA: Infusões e Equilíbrio Hemodinâmico",
+        descricao: "Atualização técnica focada em protocolos de infusão contínua (TIVA e PIVA) para veterinários que buscam estabilidade hemodinâmica superior em procedimentos de longa duração.",
+      },
+      {
+        nome: "Anestesia de Emergência: O Guia do Plantonista Cirúrgico",
+        descricao: "Capacitação técnica para o manejo anestésico de emergências de tórax e abdômen agudo, focada em veterinários que realizam plantões em centros cirúrgicos 24h.",
+      },
+      {
+        nome: "Ventilação Mecânica do Zero ao Avançado",
+        descricao: "Especialização em ventilação mecânica perioperatória para veterinários, ensinando a ajustar parâmetros do ventilador para prevenir atelectasias e melhorar a oxigenação dos pacientes.",
+      },
+      ],
+      gestao: [
+      {
+        nome: "Checkout Seguro: Precificação Exata em Anestesia",
+        descricao: "Aprenda a calcular seus custos operacionais reais, definir tabelas de preços justas e criar orçamentos profissionais que valorizam seu tempo e insumos na anestesia volante ou fixa.",
+      },
+      {
+        nome: "Posicionamento de Autoridade para Anestesistas",
+        descricao: "Estratégias de diferenciação para anestesistas plantonistas ou volantes, focadas em construir uma marca pessoal forte e ser a primeira escolha dos principais cirurgiões da região.",
+      },
+      {
+        nome: "Blindagem e Gestão: O Negócio da Anestesia",
+        descricao: "Um guia jurídico e administrativo para veterinários organizarem seus contratos de prestação de serviço, termos de consentimento e gestão de estoque de fármacos controlados sem riscos.",
+      },
+      {
+        nome: "Venda Técnica: Persuasão e Ética em Anestesiologia",
+        descricao: "Técnicas de comunicação assertiva para explicar riscos anestésicos aos tutores e fechar orçamentos de maior valor com confiança e transparência.",
+      },
+      {
+        nome: "Anestesia em Escala: Do Volante ao Digital",
+        descricao: "Dicas e ferramentas para organizar a agenda volante, otimizar deslocamentos e escalar o número de procedimentos diários sem perder a qualidade de vida.",
+      },
+      ],
+      altoValor: [
+      {
+        nome: "Protocolo Braqui-Premium: A Anestesia de Elite",
+        descricao: "Capacitação para o anestesiologista dominar o atendimento de raças braquicefálicas extremas e o uso de monitorização avançada, permitindo cobrar honorários diferenciados por procedimentos de alta complexidade.",
+      },
+      {
+        nome: "Imersão em Anestesia para Microcirurgia e Neuro",
+        descricao: "Treinamento focado em técnicas anestésicas para cirurgias oftalmológicas e neurocirurgias em hospitais de alto padrão, ensinando o vet a se posicionar como o profissional indispensável para cirurgiões renomados.",
+      },
+      {
+        nome: "Anestesia para Diagnóstico de Ponta: RM e TC",
+        descricao: "Estratégias para anestesistas que desejam atuar em centros diagnósticos de luxo, otimizando o fluxo de exames de imagem com segurança máxima e transformando exames de rotina em faturamento de alto valor.",
+      },
+      {
+        nome: "Expert em Controle de Dor: O Serviço High-Ticket",
+        descricao: "Método para implementar o serviço de Clinica da Dor na rotina volante, fidelizando tutores de alto poder aquisitivo que buscam qualidade de vida e cuidados paliativos para pets idosos.",
+      },
+      {
+        nome: "Anestesia VIP: Do Pré ao Pós-Operatório Premium",
+        descricao: "Guia prático para o anestesista construir parcerias com clínicas boutique, elevando o ticket médio através do oferecimento de pacotes de monitorização invasiva e cuidados intensivos perioperatórios.",
+      },
+      ],
     },
   },
 
@@ -502,42 +613,73 @@ export const VET_ESPECIALIDADES: Record<string, EspecialidadeVet> = {
         pratica: "Tudo que se faz para o bicho não ficar doente.",
       },
     ],
-    infoTecnica: {
-      publico: "Clínicos com 1-4 anos.",
-      dores:
-        "Dúvida ao interpretar exames de sangue confusos; Pânico no plantão noturno sozinho.",
-      nome: "Domínio do Plantão Clínico Vet.",
-      problema:
-        "O recém-formado é jogado no plantão noturno sozinho e erra diagnósticos básicos por falta de base prática.",
-      estrutura: "Casos clínicos ao vivo semanais.",
-      entregaveis:
-        "Checklists de conduta emergencial; Guia de exames laboratoriais rápidos.",
-      duracao: "6 meses.",
-    },
-    infoGestao: {
-      publico: "Donos de consultórios vet e clínicos de bairro.",
-      dores:
-        "Guerra de preços de vacina; WhatsApp gratuito sugando a energia; Receita imprevisível.",
-      nome: "Assinatura Clínica Vet (Mensalidade).",
-      problema: "Vende consulta avulsa barata e perde dinheiro.",
-      estrutura:
-        "Transição para planos de saúde próprios preventivos (assinatura anual do pet).",
-      entregaveis:
-        "Contratos de plano de prevenção; Script para não responder grátis no WhatsApp.",
-      duracao: "6 meses.",
-    },
-    infoTutores: {
-      publico:
-        '"mães de pet" de primeira viagem (cães de raça pequenos).',
-      dores:
-        "Medo do filhote morrer por engasgo, doenças ou viroses; Cachorro destruindo a casa.",
-      nome: "Filhote Blindado Prime.",
-      problema: "Informação confusa do Google enlouquece o dono.",
-      estrutura:
-        "Acompanhamento quinzenal de desenvolvimento, calendário vacinal e tira-dúvidas.",
-      entregaveis:
-        "Guia de desfralde (xixi no lugar certo); Protocolo SOS Engasgo Pet.",
-      duracao: "3 meses.",
+    infoIdeias: {
+      tecnica: [
+      {
+        nome: "Lab sem Mistério: O Guia do Bioquímico ao Hemograma",
+        descricao: "Curso prático para veterinários de campo e consultório dominarem a interpretação ágil de hemogramas e bioquímicos, permitindo diagnósticos precisos e condutas terapêuticas imediatas.",
+      },
+      {
+        nome: "Domínio na Emergência: Do Triage ao Manejo Crítico",
+        descricao: "Capacitação focada no manejo de urgências comuns no plantão da clínica geral, como intoxicações, traumas e crises convulsivas, garantindo segurança total no primeiro atendimento.",
+      },
+      {
+        nome: "Endocrino na Prática: Descomplicando o Tratamento",
+        descricao: "Treinamento intensivo sobre as principais doenças endócrinas que chegam ao clínico geral, ensinando protocolos de controle para diabetes, hiperadreno e hipotireoidismo.",
+      },
+      {
+        nome: "Prescrição Master: Farmacologia Aplicada à Rotina",
+        descricao: "Oportunidade para o clínico dominar a farmaco-clínica moderna, aprendendo a combinar moléculas e ajustar doses para tratamentos multimodais mais eficazes e com menos efeitos colaterais.",
+      },
+      {
+        nome: "Cirurgia de Consultório: Pequenos Procedimentos, Grandes Resultados",
+        descricao: "Passo a passo visual e técnico para clínicos realizarem pequenos procedimentos cirúrgicos e suturas avançadas no consultório, ampliando o leque de serviços oferecidos sem depender de terceiros.",
+      },
+      ],
+      gestao: [
+      {
+        nome: "Calculadora Vet: Precificação Lucrativa na Clínica",
+        descricao: "Aprenda a precificar consultas, procedimentos e exames laboratoriais de forma técnica, garantindo margem de lucro real e acabando com a insegurança na hora de passar o orçamento para o tutor.",
+      },
+      {
+        nome: "Instagram para Clínicos: Autoridade e Atração",
+        descricao: "Estratégias de posicionamento no Instagram para clínicos gerais se tornarem autoridade na sua região, atraindo clientes qualificados através de conteúdo estratégico e tráfego pago.",
+      },
+      {
+        nome: "Fluxo Ágil: Gestão de Consultório Sem Caos",
+        descricao: "Treinamento para organizar a rotina do consultório, otimizar o tempo de atendimento e gerenciar assistentes, permitindo que o clínico foque apenas no diagnóstico e na venda técnica.",
+      },
+      {
+        nome: "Venda Ética: Fechamento de Planos de Tratamento",
+        descricao: "Domine as técnicas de fechamento de orçamentos complexos e internações, aprendendo a comunicar o valor do seu trabalho e aumentando a taxa de aceitação de exames e tratamentos.",
+      },
+      {
+        nome: "Vet de Sucesso: Gestão Financeira para Autônomos",
+        descricao: "Guia Prático para organizar as finanças da sua atuação como autônomo ou dono de clínica, separando contas pessoais e profissionais com foco em investimento e expansão.",
+      },
+      ],
+      altoValor: [
+      {
+        nome: "Longevidade Silver: O Check-up High-Ticket",
+        descricao: "Ensina o clínico a estruturar um check-up preventivo premium para pacientes idosos, utilizando protocolos de diagnóstico precoce que elevam o ticket médio da consulta e fidelizam tutores exigentes.",
+      },
+      {
+        nome: "Clínica de Elite: Atendimento Premium e Exclusivo",
+        descricao: "Treinamento focado no atendimento de raças selecionadas e pets de luxo, abordando desde o manejo diferenciado até a comunicação persuasiva com tutores dispostos a investir no que há de melhor.",
+      },
+      {
+        nome: "Home Care VVIP: A Clínica na Casa do Cliente",
+        descricao: "Capacite-se para realizar consultas domiciliares de alto padrão, transformando a visita em uma experiência de conveniência e luxo que justifica honorários até 3x maiores que na clínica.",
+      },
+      {
+        nome: "Dermo-Lucro: O Mercado de Pets Alérgicos",
+        descricao: "Domine a prescrição e a venda de nutracêuticos e dietas personalizadas para pacientes dermatológicos e alérgicos, nicho com alta recorrência e disposição de investimento por parte do tutor.",
+      },
+      {
+        nome: "Assinatura Wellness: Recorrência de Alto Valor",
+        descricao: "Método para implementar um plano de saúde preventivo próprio da sua clínica, garantindo previsibilidade de caixa e foco total na saúde de pets com tutores de alto poder aquisitivo.",
+      },
+      ],
     },
   },
 
@@ -641,44 +783,73 @@ export const VET_ESPECIALIDADES: Record<string, EspecialidadeVet> = {
           'O "descanso final" quando o sofrimento da doença é irreversível e cruel.',
       },
     ],
-    infoTecnica: {
-      publico: "Oncos 1-4 anos e clínicos gerais.",
-      dores:
-        "Insegurança grave de vazar quimioterapia na pata do cão e necrosear tudo; Não saber prescrever paliativos focados em dor oncológica extrema.",
-      nome: "Mentoria OncoVet Segura.",
-      problema:
-        "Errar a dose da quimioterapia mata o animal de intoxicação ou permite que o tumor cresça.",
-      estrutura: "Casos oncológicos guiados.",
-      entregaveis:
-        "Calculadora de área de superfície corporal (m²); Guia de manejo de reações alérgicas da quimio.",
-      duracao: "6 meses.",
-    },
-    infoGestao: {
-      publico: "Oncologistas Veterinários.",
-      dores:
-        "Carga emocional brutal de conviver com o luto; Tutores abandonando o tratamento caro no meio do caminho por falta de verba.",
-      nome: "OncoVet Premium: Gestão de Esperança e Valor.",
-      problema:
-        "Vender quimioterápicos não é vender produtos, é vender sobrevida. Precisa alinhar pacotes de saúde fechados.",
-      estrutura:
-        "Precificação de ciclos de Quimioterapia e acompanhamento psico-veterinário.",
-      entregaveis:
-        "Contratos de tratamento oncológico de longo prazo; Treinamento de comunicação de más notícias para a equipe.",
-      duracao: "6 meses.",
-    },
-    infoTutores: {
-      publico:
-        "Tutores de cães/gatos com diagnóstico recente de câncer não curável.",
-      dores:
-        'Desespero, sentimento de culpa severa; Dúvidas diárias de "será que ele está com dor e deve ser sacrificado hoje?".',
-      nome: "Mentoria Cuidados Paliativos & Qualidade de Vida.",
-      problema:
-        'O tutor fica sozinho em casa com o animal doente e definhando. Paga para ter o médico "segurando sua mão" nessa jornada final de meses.',
-      estrutura:
-        "Acompanhamento semanal de escore de qualidade de vida do pet.",
-      entregaveis:
-        "Diário HHHHHMM Scale (Escala de Qualidade de Vida do Pet); SOS WhatsApp direto para crises de dor.",
-      duracao: "3 a 6 meses.",
+    infoIdeias: {
+      tecnica: [
+      {
+        nome: "Descomplicando a Quimioterapia Clínica",
+        descricao: "Treinamento prático para veterinários dominarem os protocolos de quimioterapia citotóxica, garantindo segurança na manipulação, cálculo de doses e manejo clínico de efeitos colaterais.",
+      },
+      {
+        nome: "Mestre em Cirurgia Oncológica e Reconstrutiva 2.0",
+        descricao: "Específico para cirurgiões que buscam perfeição em margens oncológicas e técnicas de reconstrução cutânea após a exérese de tumores complexos em cães e gatos.",
+      },
+      {
+        nome: "Diagnóstico Oncológico: Da PAAF ao Laudo",
+        descricao: "Curso voltado para o clínico geral ou especialista iniciante aprender a realizar coletas citológicas assertivas e interpretar laudos histopatológicos com segurança diagnóstica.",
+      },
+      {
+        nome: "Imunoterapia e Terapias-Alvo na Prática",
+        descricao: "Domine o uso de inibidores de tirosina quinase e imunoterapia na rotina veterinária, aprendendo a selecionar o paciente ideal e monitorar a resposta terapêutica moderna.<br>",
+      },
+      {
+        nome: "Expert em Mastocitoma Canino",
+        descricao: "Focado na abordagem clínica e cirúrgica do mastocitoma, ensinando desde o estadiamento correto até as terapias adjuvantes mais eficazes para este tumor tão comum.",
+      },
+      ],
+      gestao: [
+      {
+        nome: "Lucratividade na Quimioterapia",
+        descricao: "Aprenda a calcular o custo real de cada frasco e aplicação, precificando suas sessões de quimioterapia com margem de lucro real e inteligência financeira.",
+      },
+      {
+        nome: "O Oncologista Referência no Instagram",
+        descricao: "Estratégias de posicionamento digital e autoridade para oncologistas, focando em se tornar a principal referência para generalistas e centros de diagnóstico da sua região.",
+      },
+      {
+        nome: "Gestão de Blindagem Oncológica",
+        descricao: "Treinamento para organizar o fluxo de atendimento oncológico, desde o prontuário até o descarte de resíduos, garantindo segurança jurídica e eficiência operacional.",
+      },
+      {
+        nome: "Networking e Captação de Pacientes Onco",
+        descricao: "Aprenda a prospectar e manter parcerias sólidas com clínicas gerais, criando um sistema de indicação recorrente que mantém sua agenda sempre cheia de casos especializados.",
+      },
+      {
+        nome: "Venda Consultiva em Oncologia",
+        descricao: "Como vender protocolos complexos de tratamento sem parecer um 'vendedor', utilizando gatilhos mentais e clareza técnica para aumentar a aceitação de orçamentos altos.",
+      },
+      ],
+      altoValor: [
+      {
+        nome: "Onco-Premium: Cuidados Paliativos VIP",
+        descricao: "Capacitação completa para montar e vender protocolos de oncologia integrativa e cuidados paliativos de luxo, transformando o atendimento de fim de vida em uma experiência acolhedora e altamente valorizada.",
+      },
+      {
+        nome: "Tecnologia de Ponta na Oncologia",
+        descricao: "Método para médicos veterinários dominarem a eletroquimioterapia e terapias-alvo, técnicas de última geração que justificam honorários diferenciados e atraem tutores que buscam o melhor da ciência.",
+      },
+      {
+        nome: "A Tomada de Decisão no Paciente Crítico",
+        descricao: "Estratégias de comunicação e conduta para converter casos complexos de oncologia em tratamentos de longo prazo, focando na fidelização do tutor 'high-ticket' que não poupa recursos para o bem-estar do pet.",
+      },
+      {
+        nome: "Onco Home Office: O Atendimento Exclusivo",
+        descricao: "Guia prático para estruturar um serviço de quimioterapia domiciliar ou 'boutique', oferecendo conveniência e exclusividade para pacientes oncológicos de alto padrão.",
+      },
+      {
+        nome: "Oncologia de Precisão e Monetização de Exames",
+        descricao: "Treinamento focado em oncogenética e diagnósticos moleculares, ensinando o veterinário a interpretar e cobrar por exames sofisticados que direcionam a medicina personalizada.",
+      },
+      ],
     },
   },
 
@@ -782,43 +953,73 @@ export const VET_ESPECIALIDADES: Record<string, EspecialidadeVet> = {
         pratica: "O animal ficar careca, com falhas na pelagem.",
       },
     ],
-    infoTecnica: {
-      publico: "Clínicos com 1-4 anos.",
-      dores:
-        'Tratar otites repetitivas e o tutor brigar que "nunca sara"; Não saber prescrever imunossupressores biológicos caros (Apoquel, Cytopoint).',
-      nome: "Mentoria Dermato Vet Prática.",
-      problema:
-        "Dermatologia gera muita grana, mas o clínico só sabe passar corticoide, viciando e adoecendo o pet (iatrogenia).",
-      estrutura: "Casos clínicos, aulas de citologia em consultório.",
-      entregaveis:
-        "Atlas fotográfico de lâminas de microscópio; Guia de desmame de corticoides.",
-      duracao: "6 meses.",
-    },
-    infoGestao: {
-      publico: "Dermatologistas Vet.",
-      dores:
-        "Consulta complexa com baixo valor agregado; Retornos infinitos que não geram faturamento; Tutores desistindo na metade por custo de xampus.",
-      nome: "DermaVet Premium: Fim da Consulta Isolada.",
-      problema:
-        'O dermato sofre porque atopia não tem cura, tem controle. Se cobrar por consulta avulsa, o cliente acha caro. Precisa vender pacotes anuais de controle.',
-      estrutura:
-        'Modelagem de planos anuais de Atopia, marketing focado na dor de "dormir sem o barulho da lambedura".',
-      entregaveis:
-        "Planilha de pacote trimestral (vacina + xampus + consultas).",
-      duracao: "6 meses.",
-    },
-    infoTutores: {
-      publico: "Tutores de cães atópicos (Bulldogs Franceses, Spitz).",
-      dores:
-        "Gastos absurdos com pet-shops, rações caras e pomadas, sem resultado; Pet fede e não dorme; Sofre com o cachorro chorando de dor no ouvido.",
-      nome: "Programa Cão Atópico Controlado (Pele de Ouro).",
-      problema:
-        "O dono erra no manejo básico em casa. Dá o petisco errado, dá banho com sabonete errado e destrói o tratamento. Ele precisa de educação semanal focada.",
-      estrutura:
-        "Acompanhamento quinzenal de estilo de vida do pet, orientação ambiental e manejo de banhoterapia (banhos terapêuticos em casa).",
-      entregaveis:
-        "Guia de banho terapêutico correto; Diário de prurido (coceira).",
-      duracao: "6 meses.",
+    infoIdeias: {
+      tecnica: [
+      {
+        nome: "Mestre da Citologia Dermatológica",
+        descricao: "Domine a coleta, coloração e leitura de citologias cutâneas e otológicas no dia a dia, transformando o microscópio em sua principal ferramenta de diagnóstico rápido e preciso no consultório.",
+      },
+      {
+        nome: "Domínio da Atopia: Do Controle ao Manejo Moderno",
+        descricao: "Capacitação clínica focada no manejo avançado do cão atópico, abordando desde o controle de crises até a imunoterapia personalizada e o uso de biológicos de última geração.",
+      },
+      {
+        nome: "DermoCirurgia: Procedimentos de Consultório",
+        descricao: "Aprenda as principais técnicas de biópsia cutânea e procedimentos cirúrgicos menores da dermatologia, como a remoção de pequenos nódulos e criocirurgia com precisão e segurança.",
+      },
+      {
+        nome: "Expert em Otites: Do Diagnóstico ao Tratamento Final",
+        descricao: "Treinamento prático para identificar e tratar otites externas e médias complexas, com foco em video-otoscopia e lavagem de orelha média para clínicos e especialistas.",
+      },
+      {
+        nome: "Farmacologia Dermatológica Avançada",
+        descricao: "Um guia definitivo sobre o uso racional e estratégico de antibióticos, antifúngicos e terapias tópicas para combater as principais infecções bacterianas e fúngicas resistentes em pequenos animais.",
+      },
+      ],
+      gestao: [
+      {
+        nome: "Lucratividade na Dermato: Precificação e Margem",
+        descricao: "Aprenda a precificar consultas, biópsias, citologias e testes alérgicos de forma lucrativa, garantindo que sua especialidade seja financeiramente sustentável e escalável.",
+      },
+      {
+        nome: "Autoridade Dermato: Posicionamento no Digital",
+        descricao: "Estratégias de marketing digital focadas em dermatologia para atrair os casos certos via redes sociais, construindo autoridade e transformando seguidores em pacientes agendados.",
+      },
+      {
+        nome: "Dermato de Sucesso: Gestão de Carreira e Parcerias",
+        descricao: "Método de organização de agenda e fluxo de atendimento especializado para dermatologistas volantes ou que atendem em clínicas parceiras, otimizando tempo e parcerias.",
+      },
+      {
+        nome: "Venda Consultiva para Dermatologistas",
+        descricao: "Roteiros de vendas e comunicação assertiva para aumentar a adesão do tutor aos tratamentos longos, garantindo o retorno financeiro e o sucesso clínico na dermatologia.",
+      },
+      {
+        nome: "Consultório Dermato do Zero: Planejamento e ROI",
+        descricao: "Guia prático para montar seu consultório ou centro de diagnóstico dermatológico do zero, com foco em layout funcional e escolha assertiva de equipamentos que se pagam rápido.",
+      },
+      ],
+      altoValor: [
+      {
+        nome: "Dermo Luxury: O Guia das Raças Nobres",
+        descricao: "Treinamento especializado em dermatologia de raças braquicefálicas premium e cães de exposição, ensinando o veterinário a cobrar por protocolos de manutenção estética e saúde da barreira cutânea a longo prazo.",
+      },
+      {
+        nome: "High-Tech Dermato: Monetizando com Laser e Biológicos",
+        descricao: "Capacitação para implementar um centro de terapia regenerativa e laserterapia na rotina dermato, atraindo tutores dispostos a investir em tecnologias de ponta para cura de feridas e atopia.",
+      },
+      {
+        nome: "Dermatologia de Elite: Ticket Alto e Fidelização",
+        descricao: "Estratégias de comunicação e serviço diferenciado para transformar consultas de dermatologia em planos de saúde personalizados de alto valor, focados em check-ups dermatológicos preventivos para o mercado de luxo.",
+      },
+      {
+        nome: "Casos Complexos: A Rota da Consultoria Premium",
+        descricao: "Domine o diagnóstico e manejo de doenças raras e autoimunes, posicionando-se como o \"veterinário de última instância\" que resolve casos complexos onde outros falharam, permitindo honorários diferenciados.",
+      },
+      {
+        nome: "Spa Dermato Business: O Próximo Nível do Atendimento",
+        descricao: "Método para o veterinário oferecer serviços de Spa Dermatológico Clínico, unindo medicina de precisão com bem-estar, focado em pacientes com doenças crônicas de tutores com alto poder aquisitivo.",
+      },
+      ],
     },
   },
 
@@ -922,44 +1123,73 @@ export const VET_ESPECIALIDADES: Record<string, EspecialidadeVet> = {
           "Quando o olho do pug/shih-tzu pula inteiro para fora do rosto após um trauma ou briga. (Urgência máxima).",
       },
     ],
-    infoTecnica: {
-      publico: "Oftalmos 1-4 anos.",
-      dores:
-        "Insegurança em microcirurgias (Flap de conjuntiva) em úlceras profundas; Medo do olho furar sob anestesia.",
-      nome: "Mentoria MicroCirurgia Ocular Vet.",
-      problema:
-        'Na especialização, treinam em olho de porco, mas na prática a pressão de estourar um olho de Shih-Tzu é gigantesca e ele trava na hora do "vamos ver".',
-      estrutura: "Análise de vídeos de microcirurgia.",
-      entregaveis:
-        'Checklist cirúrgico de úlcera derretida ("melting"); Protocolo de colírios agressivos em PDF.',
-      duracao: "6 meses.",
-    },
-    infoGestao: {
-      publico: "Oftalmologistas clínicos.",
-      dores:
-        "Cirurgia de catarata é cara e os tutores não fecham; Depender de clínicos gerais mandarem exames para eles.",
-      nome: "Vendas High-Ticket OftalmoVet.",
-      problema:
-        "As máquinas oftálmicas custam fortunas. O oftalmo não pode vender consulta, tem que empacotar as cirurgias intraoculares premium (facoemulsificação).",
-      estrutura:
-        "Script de argumentação focada no resgate da visão do idoso.",
-      entregaveis:
-        "Modelos de termo de alto risco (Glaucoma); Planilha de ROI de máquinas caras.",
-      duracao: "6 meses.",
-    },
-    infoTutores: {
-      publico:
-        "Tutores de cães recém diagnosticados com Glaucoma ou que acabaram de operar catarata.",
-      dores:
-        "Pingar colírios de hora em hora é exaustivo; Medo brutal do cão ficar cego permanentemente por bobeira deles em casa; Custo absurdo mensal de colírios.",
-      nome: "Acompanhamento Visão Protegida 360.",
-      problema:
-        "O tratamento oftalmológico depende 100% da dedicação do dono em casa de respeitar horários e proteger da luz. O acompanhamento garante o resultado cirúrgico não ser perdido.",
-      estrutura:
-        "Suporte no WhatsApp para ajustes da pressão ocular, acompanhamento fotográfico do olho pelo tutor.",
-      entregaveis:
-        "Tabela de colírios com alarme programado; SOS Dor ocular.",
-      duracao: "3 meses.",
+    infoIdeias: {
+      tecnica: [
+      {
+        nome: "Exame Oftalmológico de Elite: Do Clínico ao Especialista",
+        descricao: "Para veterinários que desejam dominar o uso da lâmpada de fenda e do oftalmoscópio, garantindo diagnósticos precisos desde a superfície ocular até a retina de cães e gatos.",
+      },
+      {
+        nome: "Mestre das Suturas de Córnea e Anexos Oculares",
+        descricao: "Focado no veterinário que quer segurança para realizar desde flaps conjuntivais até ceratectomias, entregando técnicas de sutura delicadas para preservação da visão.",
+      },
+      {
+        nome: "Domínio do Glaucoma e Superfície Ocular na Prática",
+        descricao: "Capacita o colega a interpretar e realizar a tonometria e o teste de Schirmer corretamente, permitindo o manejo avançado de casos complexos de glaucoma e olho seco.",
+      },
+      {
+        nome: "Protocolo Úlcera Zero: Diagnóstico e Manejo Avançado",
+        descricao: "Transforma a conduta do veterinário no atendimento de úlceras de córnea complicadas, ensinando a escolha correta de fármacos e o momento exato da intervenção cirúrgica.",
+      },
+      {
+        nome: "Farmacologia Ocular: Prescrições de Alta Performance",
+        descricao: "Curso técnico voltado para o domínio da farmacologia ocular veterinária, permitindo que o colega prescreva formulações magistrais e colírios específicos com máxima eficácia terapêutica.",
+      },
+      ],
+      gestao: [
+      {
+        nome: "Lucratividade na Oftalmologia: Precificação e Margem",
+        descricao: "Enfoca o veterinário que precisa ajustar a precificação de exames e cirurgias oculares, garantindo que a margem de lucro cubra a manutenção de equipamentos caros e o tempo dedicado à especialidade.",
+      },
+      {
+        nome: "Oftalmo em Foco: Marketing Geolocalizado e Parcerias",
+        descricao: "Ensina o colega a se posicionar no Instagram e LinkedIn como referência em oftalmologia, atraindo parcerias de encaminhamento de outros veterinários e clínicas gerais de forma ética.",
+      },
+      {
+        nome: "Do Volante ao Centro Oftalmológico: Gestão de Carreira",
+        descricao: "Um guia de gestão para o veterinário que deseja transicionar do atendimento volante para o próprio consultório de oftalmologia, otimizando o fluxo de caixa e a agenda de procedimentos.",
+      },
+      {
+        nome: "Vendas em Oftalmologia: Convertendo Consultas em Cirurgias",
+        descricao: "Capacita o especialista a treinar sua equipe de apoio para realizar um pré-atendimento focado em converter orçamentos cirúrgicos e exames complementares de forma elegante e eficaz.",
+      },
+      {
+        nome: "Gestão de Insumos e Eficiência em Consultório Ocular",
+        descricao: "Ensina ao veterinário como organizar o estoque de colírios e insumos cirúrgicos, evitando desperdícios e garantindo que o custo operacional não consuma o lucro da especialidade.",
+      },
+      ],
+      altoValor: [
+      {
+        nome: "Oftalmo Prime: O Nicho dos Braquicefálicos",
+        descricao: "Direcionado ao veterinário que deseja se especializar no atendimento de raças braquicefálicas de alto padrão, dominando procedimentos estéticos e funcionais que agregam alto valor percebido pelo tutor premium.",
+      },
+      {
+        nome: "High-Ticket em Microcirurgia Ocular",
+        descricao: "Capacita o colega a implementar um serviço diferenciado de microcirurgia ocular, ensinando como justificar o investimento em tecnologia e cobrar honorários compatíveis com a alta complexidade e precisão.",
+      },
+      {
+        nome: "Oftalmologia Veterinária VIP: Do Check-up à Fidelização",
+        descricao: "Estratégias para o veterinário transformar a consulta de rotina em um check-up oftalmológico preventivo de luxo, atraindo clientes que priorizam o bem-estar e a longevidade ocular de pets de elite.",
+      },
+      {
+        nome: "Plástica Ocular: O Poder da Estética Funcional Vet",
+        descricao: "Guia prático para o clínico se posicionar como autoridade em correções de pálpebras e anexos, focando em resultados impecáveis que satisfazem os tutores mais exigentes e que investem no melhor para seus animais.",
+      },
+      {
+        nome: "Urgência Premium: Valorizando a Visão em Tempo Real",
+        descricao: "Treinamento focado no atendimento particular de urgências oftalmológicas, ensinando o veterinário a cobrar o valor real da sua disponibilidade e expertise em casos críticos fora do horário comercial.",
+      },
+      ],
     },
   },
 
@@ -1060,45 +1290,73 @@ export const VET_ESPECIALIDADES: Record<string, EspecialidadeVet> = {
           "Compressão na medula que faz o cão uivar de dor de coluna e paralisar as patas.",
       },
     ],
-    infoTecnica: {
-      publico: "Ortopedistas nível pleno (1-4 anos).",
-      dores:
-        "Cirurgia de TPLO e fraturas articulares são um pesadelo se errar a angulação do corte; Medo dos parafusos soltarem dias depois.",
-      nome: "Mentoria OrtoVet Master: Planejamento Reverso.",
-      problema:
-        "O erro na ortopedia é visível no Raio-x (o osso fica torto). A insegurança de serrar ossos sozinhos afasta o médico de cirurgias altamente lucrativas.",
-      estrutura:
-        "Aulas de planejamento de cortes cirúrgicos antes de abrir o animal.",
-      entregaveis:
-        "Protocolo de fixação externa; Guia de implantes bloqueados.",
-      duracao: "6 meses.",
-    },
-    infoGestao: {
-      publico: "Ortopedistas clínicos e cirurgiões.",
-      dores:
-        'Materiais de implante (placas TPLO) são caros e o tutor foge do orçamento de R$ 6 mil; Brigas sobre "devolução de dinheiro" se a placa infeccionar.',
-      nome: "OrtoVet Rentável.",
-      problema:
-        "Vender cirurgia complexa ortopédica requer táticas de percepção de valor. Sem vendas, ele engessa muito e opera pouco.",
-      estrutura:
-        "Treinamento de script de venda no consultório provando o custo de uma vida paralisada vs a cirurgia definitiva.",
-      entregaveis:
-        "Modelos de termo cirúrgico com isenção em rejeição de pino.",
-      duracao: "6 meses.",
-    },
-    infoTutores: {
-      publico:
-        "Tutores pós-operatórios de TPLO/Coluna e donos de pets idosos com dor crônica displásica.",
-      dores:
-        "Segurar o cão ativo na gaiola pós-cirurgia (repouso) é um terror; Cachorro obeso chora de dor para levantar todo dia; Reabilitação (fisioterapia) custa caro.",
-      nome: "RehabVet em Casa (Movimento sem Dor).",
-      problema:
-        "O sucesso da cirurgia depende do cão não pular por 30 dias, e os tutores piram com isso. Além de cães com dor crônica que precisam perder peso com urgência.",
-      estrutura:
-        "Acompanhamento quinzenal de repouso, fisioterapia básica passiva em casa (ensinada por vídeo).",
-      entregaveis:
-        'Cronograma de "Ocupação Mental" (brinquedos de roer) para cão repousar; Protocolo de Dieta de Redução Articular.',
-      duracao: "3 meses.",
+    infoIdeias: {
+      tecnica: [
+      {
+        nome: "Mestre do Planejamento Radiográfico Ortopédico",
+        descricao: "Destinado a veterinários que desejam segurança total na interpretação de radiografias e tomografias para planejar cirurgias de joelho, quadril e coluna com precisão milimétrica.",
+      },
+      {
+        nome: "Expertise em Semiologia e Claudicação",
+        descricao: "Um guia prático para o clínico e o cirurgião iniciante dominarem o exame físico ortopédico e identificarem claudicações sutis que passam despercebidas na rotina.",
+      },
+      {
+        nome: "Imersão em Placas Bloqueadas e Fixação Interna",
+        descricao: "Capacitação técnica em técnicas de osteossíntese com foco em placas bloqueadas, entregando confiança para realizar fixações estáveis em fraturas complexas de rádio e ulna.",
+      },
+      {
+        nome: "Dominando a TPLO e Ruptura de Ligamento Crucial",
+        descricao: "Focado no veterinário que deseja realizar a cirurgia de TPLO com maestria, desde o posicionamento do paciente até o pós-operatório imediato para rápida recuperação.",
+      },
+      {
+        nome: "Manual Definitivo da Luxação de Patela",
+        descricao: "Curso focado em técnicas cirúrgicas para correção de luxação de patela em pequenos e grandes cães, garantindo o alinhamento perfeito do mecanismo extensor.",
+      },
+      ],
+      gestao: [
+      {
+        nome: "Lucratividade no Centro Cirúrgico Ortopédico",
+        descricao: "Aprenda a calcular custos reais de implantes, instrumentais e tempo cirúrgico para garantir que suas cirurgias ortopédicas sejam altamente lucrativas e sustentáveis.",
+      },
+      {
+        nome: "Autoridade Ortopédica: Marketing de Indicação",
+        descricao: "Estratégias para se posicionar como o ortopedista de referência na sua região, gerando um fluxo constante de encaminhamentos qualificados por parte de outros colegas clínicos.",
+      },
+      {
+        nome: "Gestão Ágil para Ortopedistas Volantes",
+        descricao: "Ferramentas práticas para organizar sua agenda de cirurgias, controle de estoque de placas e parafusos e gestão de equipe auxiliar para otimizar seu tempo.",
+      },
+      {
+        nome: "Venda de Cirurgias de Alta Complexidade",
+        descricao: "Como apresentar orçamentos de grandes cirurgias de forma persuasiva, aumentando drasticamente a taxa de aprovação de procedimentos complexos e de alto custo.",
+      },
+      {
+        nome: "Business Vet: Sua Clínica Ortopédica do Zero",
+        descricao: "Passo a passo para tirar o consultório focado em ortopedia do papel, desde a escolha de equipamentos rentáveis até o layout que otimiza o fluxo de atendimento.",
+      },
+      ],
+      altoValor: [
+      {
+        nome: "Ortopedia de Performance: O Nicho High-Ticket",
+        descricao: "Treinamento para transformar o ortopedista em uma referência para cães de exposição e esportistas, focando em protocolos de performance que tutores de elite pagam com prazer.",
+      },
+      {
+        nome: "A Jornada do Paciente Premium em Ortopedia",
+        descricao: "Estratégias de abordagem e fidelização para tutores de raças gigantes e braquicefálicos com demandas ortopédicas complexas, onde o valor da solução supera qualquer barreira de preço.",
+      },
+      {
+        nome: "Terapias de Luxo: Células-Tronco e PRP na Prática",
+        descricao: "Como estruturar um serviço diferenciado de ortopedia regenerativa e tratamento de osteoartrite com terapias biológicas, atraindo clientes que buscam o que há de mais moderno na medicina.",
+      },
+      {
+        nome: "Ortopedia Exclusive: Atendimento de Alto Padrão",
+        descricao: "Domine a arte de realizar diagnósticos em etapas e cirurgias de alta complexidade com precificação baseada em valor, focando em famílias que tratam o pet como prioridade máxima.",
+      },
+      {
+        nome: "Soluções Customizadas para Pacientes Vips",
+        descricao: "Método para captar e reter pacientes que necessitam de próteses e órteses customizadas, elevando o faturamento por paciente através de tecnologia e personalização extrema.",
+      },
+      ],
     },
   },
 
@@ -1201,47 +1459,75 @@ export const VET_ESPECIALIDADES: Record<string, EspecialidadeVet> = {
         pratica: 'O tecido morto "apodrecendo" em volta da doença.',
       },
     ],
-    infoTecnica: {
-      publico: "Patologistas e residentes 1-4 anos.",
-      dores:
-        "Insegurança letal ao dar um diagnóstico falso positivo para um sarcoma e o pet sofrer amputação à toa; Lâminas com artefatos (sujas) que confundem as células.",
-      nome: "Patologia Master: Diagnóstico sem Dúvidas.",
-      problema:
-        "O patologista é o juiz final do diagnóstico. Sem orientador, ele passa noites sem dormir porque não consegue dizer se aquilo é câncer ou infecção crônica e a clínica o pressiona pelo resultado.",
-      estrutura:
-        "Acesso a Atlas Digitais e envio de imagens do microscópio para análise conjunta (Telepatologia e rounds).",
-      entregaveis:
-        "Modelos perfeitos de Laudo Histopatológico Descritivo; Guia de gradação tumoral (TNM).",
-      duracao: "6 meses.",
+    infoIdeias: {
+      tecnica: [
+      {
+        nome: "Mestres da Citopatologia Diagnóstica",
+        descricao: "Capacitação avançada para veterinários que desejam dominar a citopatologia de linfonodos e órgãos cavitários, garantindo diagnósticos precisos e segurança na diferenciação de processos reativos e neoplásicos.",
+      },
+      {
+        nome: "Hematologia sem Mistérios: Do Viral ao Parasitário",
+        descricao: "Guia prático para patologistas clínicos dominarem a hematologia das doenças infecciosas e parasitárias, com foco em identificação de microorganismos e interpretação de hemogramas complexos.",
+      },
+      {
+        nome: "DermatoPath: O Guia Definitivo de Histopatologia Cutânea",
+        descricao: "Imersão técnica em histopatologia de pele para o patologista que quer se tornar referência no diagnóstico de dermatopatias inflamatórias e neoplásicas de cães e gatos.",
+      },
+      {
+        nome: "Líquidos e Efusões: Do Microscópio ao Diagnóstico",
+        descricao: "Curso focado na análise morfológica de efusões e líquidos cavitários, ensinando o veterinário a correlacionar achados citológicos com a clínica para um diagnóstico etiológico rápido.",
+      },
+      {
+        nome: "Expert em Necropsia: Da Macro à Micro",
+        descricao: "Treinamento intensivo para dominar a técnica de necropsia em pequenos animais, garantindo a coleta correta de fragmentos e a interpretação macroscópica precisa para laudos conclusivos.",
+      },
+      ],
+      gestao: [
+      {
+        nome: "Lab Pro: Gestão de Laboratórios Lucrativos",
+        descricao: "Passo a passo para estruturar um laboratório de apoio lucrativo, focando em otimização de fluxo de amostras, logística reversa de materiais e redução de desperdício em reagentes.",
+      },
+      {
+        nome: "Precificação Estratégica na Patologia Vet",
+        descricao: "Aprenda a precificar diagnósticos histopatológicos e citológicos com base em margem de contribuição, eliminando o medo de cobrar mais que a concorrência por laudos de qualidade superior.",
+      },
+      {
+        nome: "Patologista de Autoridade: Marketing B2B",
+        descricao: "Técnicas de posicionamento digital e networking para patologistas que desejam se tornar a primeira escolha dos melhores hospitais e clínicas da sua cidade. autoridade através do laudo.",
+      },
+      {
+        nome: "Experiência do Patologista: Fidelização de Clínicos",
+        descricao: "Treinamento para padronizar o atendimento e a comunicação do laboratório, transformando recepcionistas e técnicos em uma equipe focada em experiência do cliente e fidelização de clínicos.",
+      },
+      {
+        nome: "Eficiência Laboratorial: Escala e Produtividade",
+        descricao: "Método para automatizar processos burocráticos e laudos no laboratório, liberando tempo para o patologista focar na análise diagnóstica e aumentar sua escala de faturamento.",
+      },
+      ],
+      altoValor: [
+      {
+        nome: "Diagnóstico de Elite: Oncologia Molecular",
+        descricao: "Treinamento focado em laudos de imuno-histoquímica e patologia molecular para oncologistas que atendem casos de alto custo, ensinando o patologista a cobrar o justo pela complexidade diagnóstica.",
+      },
+      {
+        nome: "Check-up High-Ticket Geriatria",
+        descricao: "Metodologia para implementar check-ups laboratoriais preventivos em pacientes geriátricos de raças gigantes, transformando exames de rotina em um plano de saúde laboratorial de alto valor anual.",
+      },
+      {
+        nome: "Patologia VIP: O Expert na Sala de Parto e Cirurgia",
+        descricao: "Capacitação para montar um serviço de biópsia por congelamento e citologia intraoperatória, permitindo ao patologista cobrar por hora em cirurgias premium de grandes hospitais.",
+      },
+      {
+        nome: "Nicho de Ouro: Patologia de Exóticos e Criadores",
+        descricao: "Estratégias de consultoria laboratorial para criadores de raças exóticas e silvestres, nicho que exige precisão técnica extrema e possui alta disposição de investimento para preservação genética.",
+      },
+      {
+        nome: "Necropsia Forense e Animais de Alto Valor",
+        descricao: "Aprenda a realizar e precificar necropsias forenses para casos judiciais e seguros de animais de alto valor zootécnico, tornando-se o perito referência na sua região.",
+      },
+      ],
     },
-    infoGestao: {
-      publico: "Patologistas autônomos ou pequenos laboratórios.",
-      dores:
-        "Vender laudo muito barato por causa de grandes redes laboratoriais que monopolizam o mercado; Ser tratado como um despachante de papel pela clínica.",
-      nome: "Patologista de Alto Valor (PJ B2B).",
-      problema:
-        'Ele precisa se vender como "Consultor Especialista" para os cirurgiões oncológicos de alto padrão e não ser o "laboratório barato da esquina".',
-      estrutura:
-        "Como captar hospitais e clínicas oncológicas focando na exclusividade e assessoria do patologista.",
-      entregaveis:
-        "Portfólio comercial B2B de Laboratório Premium; Precificação de exames IHQ de alto ticket.",
-      duracao: "6 meses.",
-    },
-    tutoresLabel: "Pacientes de Alto Valor (Criadores / Haras B2B)",
-    infoTutores: {
-      publico:
-        'Como não lidam com tutores comuns, o "paciente" de alto valor são grandes Haras (cavalos de R$ 1 Milhão) ou Criadores Comerciais (Canis de luxo/Gatis e Rebanhos).',
-      dores:
-        "Um vírus letal ou doença invisível entrando no plantel e matando dezenas de filhotes de alto valor comercial, gerando falência no haras/canil.",
-      nome: "Assessoria de Prevenção e Investigação de Surtos (CSI Vet).",
-      problema:
-        "O criador perde ninhadas seguidas ou um garanhão de luxo. Ele precisa de um patologista investigativo na fazenda/canil que necropsie, laudo e pare a doença na raiz, elaborando programas de biossegurança restrita.",
-      estrutura:
-        "Contrato de retenção de assessoria mensal (retentor) + visitas de campo focadas na higiene epidemiológica do plantel.",
-      entregaveis:
-        "Protocolos Rígidos de Quarentena em Canil PDF; Investigação post-mortem com plano de ação emergencial de surtos (Parvovirose/Herpes).",
-      duracao: "12 meses (Acompanhamento Anual).",
-    },
+    altoValorLabel: "Pacientes de Alto Valor (Criadores / Haras B2B)",
   },
 
   "cardiologia-veterinaria": {
@@ -1350,46 +1636,73 @@ export const VET_ESPECIALIDADES: Record<string, EspecialidadeVet> = {
           "Desmaio repentino porque faltou sangue na cabeça por falha da bomba do coração. O cão cai duro e levanta logo após.",
       },
     ],
-    infoTecnica: {
-      publico:
-        "Cardiologistas Vet em início de carreira, ou Clínicos Gerais que fazem ecocardiograma iniciante.",
-      dores:
-        "Travamento extremo na hora de laudar a fração de encurtamento no ultrassom cardíaco; Desespero ao ter que classificar qual estágio de insuficiência (B1, B2, C) e errar a dose do diurético, levando o animal ao óbito.",
-      nome: "CardioVet Masterclass: Do Doppler ao Laudo.",
-      problema:
-        "Ajustar diurético e Pimobendan exige exatidão matemática nos números do ecocardiograma. O eco é um exame operador-dependente difícil e sem o preceptor ensinando onde colocar o cursor na tela, o médico lauda tudo errado.",
-      estrutura:
-        'Aulas práticas gravadas simulando as medições "botão a botão" na máquina; grupos de tira-dúvida de ECG diário de madrugada (Tele-ECG).',
-      entregaveis:
-        "Guias rápidos plastificados de Medição Ecocardio; Tabela Rápida de Doses de Anti-Arrítmicos de Emergência; Checklist de Risco Cirúrgico.",
-      duracao: "6 meses.",
-    },
-    infoGestao: {
-      publico: "Cardiologistas Veterinários autônomos Volantes ou de clínica.",
-      dores:
-        '"Migalhas" do valor do eco volante que a clínica parceira fatia; Perda terrível de clientes porque os tutores abandonam as consultas de rotina; Ansiedade pelas contas.',
-      nome: "Clínico Cardio de Alto Retorno.",
-      problema:
-        "Cardiopatas precisam de reavaliação a cada 3 meses para ajustar doses pro resto da vida. O veterinário cobra consulta normal e o dono desiste pelo preço somado aos exames.",
-      estrutura:
-        "Transição do modelo de vendas avulsas para Planos Anuais de Prevenção e Controle Cardiológico (Mensalidade). Marketing direto pro dono do cão sem intermediários da clínica geral.",
-      entregaveis:
-        'Script de Consultoria de Vendas "Seu cão blindado" — modelo de plano anual contratual; Roteiros de Instagram para alertar sinais sutis (como tosse de cão que não é gripe e sim coração).',
-      duracao: "6 meses.",
-    },
-    infoTutores: {
-      publico:
-        "Tutores desesperados de cães e gatos em Insuficiência Cardíaca avançada ou com Sopros Severos (Ex: Poodle e Cavalier).",
-      dores:
-        'Acordar de madrugada com o cachorro com tosse "de ganso", língua roxa, achando que vai morrer sufocado e correr pro hospital gastando R$ 2.000 em UTI. Dar 6 comprimidos horários e o pet cuspir tudo, se perdendo na rotina estressante.',
-      nome: "Acompanhamento Coração Blindado Pet 360.",
-      problema:
-        'O cardiopata idoso oscila. O tutor vive refém do medo do cão ter uma síncope. Aceitaria pagar premium para ter o cardiologista "segurando sua mão" em casa, via WhatsApp, a cada pequena tosse e reajustando doses de imediato.',
-      estrutura:
-        'Consulta mestre inicial com todos os ecos/mapa + Avaliação contínua semanal pelo botão de Whats VIP + ensino da "Frequência Respiratória de Repouso (FRR)" pro dono fazer à noite com relógio.',
-      entregaveis:
-        "App Planner Físico diário de administração das dezenas de remédios sem erro; Vídeoaula exclusiva: 'O que fazer nos 10 minutos após um desmaio'; Acesso a oxigenoterapia de suporte locada.",
-      duracao: "12 meses (retenção anual).",
+    infoIdeias: {
+      tecnica: [
+      {
+        nome: "Mestres do Ecocardio",
+        descricao: "Capacita o clínico focado em pequenos animais a interpretar ecocardiogramas com confiança, identificando valvulopatias e cardiomiopatias com precisão diagnóstica imediata.",
+      },
+      {
+        nome: "Descomplicando o ECG Vet",
+        descricao: "Treinamento prático e avançado em eletrocardiografia para veterinários que desejam dominar arritmias complexas e distúrbios de condução em cães e gatos.",
+      },
+      {
+        nome: "Cardio FAST na Emergência acoustics",
+        descricao: "Ensina o veterinário intensivista a realizar a ecocardiografia focada em emergências (POCUS), permitindo decisões rápidas em pacientes com efusão pleural e choque.",
+      },
+      {
+        nome: "FarmacoCardio de Elite",
+        descricao: "Protocolos modernos de farmacologia cardiovascular para o clínico que busca dominar as titulações de fármacos inotrópicos e diuréticos em pacientes com insuficiência cardíaca.",
+      },
+      {
+        nome: "O Coração Felino Master",
+        descricao: "Aprimoramento técnico em cardiologia felina para o veterinário que deseja entender as particularidades de diagnóstico e manejo da cardiomiopatia hipertrófica em gatos.",
+      },
+      ],
+      gestao: [
+      {
+        nome: "Cardio Volante Lucrativo",
+        descricao: "Método para o cardiologista volante precificar seus exames de forma lucrativa, considerando deslocamento, manutenção de equipamentos e taxas de clínicas parceiras.",
+      },
+      {
+        nome: "Vendas em Cardiologia",
+        descricao: "Script de vendas e oratória para aumentar a adesão dos tutores a tratamentos cardíacos de longo prazo, garantindo a recorrência na agenda e a saúde do paciente.",
+      },
+      {
+        nome: "Posicionamento Cardio Expert",
+        descricao: "Estratégias de branding de rede social focadas em transformar o cardiologista veterinário em uma referência local, atraindo indicações diretas e diminuindo a dependência de clínicos.",
+      },
+      {
+        nome: "Dashboard da Clinica Cardíaca",
+        descricao: "Modelo de gestão de custos e otimização de tempo para laudos de eletrocardiograma e ecocardiograma, focado em ganhar escala sem perder a qualidade técnica.",
+      },
+      {
+        nome: "Network Heart Strategy",
+        descricao: "Guia prático para montar parcerias estratégicas com clínicas gerais e hospitais 24h, criando um fluxo constante de novos pacientes por meio do marketing de indicação.",
+      },
+      ],
+      altoValor: [
+      {
+        nome: "Protocolo Breeding Gold",
+        descricao: "Ensina o cardiologista a se posicionar para atender raças gigantes e braquicefálicos de linhagens premiadas, focando em protocolos de check-up de luxo e acompanhamento preventivo de alto rendimento.",
+      },
+      {
+        nome: "Cardio VIP Monitoring",
+        descricao: "Capacita o veterinário a oferecer um serviço diferenciado de monitoramento remoto 24h para pacientes cardíacos críticos, elevando o valor da mensalidade e a percepção de cuidado exclusivo.",
+      },
+      {
+        nome: "Exotic Heart Premium",
+        descricao: "Estratégias para captar e fidelizar tutores de animais exóticos que demandam exames cardíacos complexos, transformando a raridade do paciente em precificação de alta performance.",
+      },
+      {
+        nome: "Cat-Friendly Heart Home",
+        descricao: "Treinamento focado no atendimento domiciliar de luxo para gatos cardiopatas idosos, com foco em conforto extremo, tecnologia portátil e experiência de atendimento sem estresse para o tutor.",
+      },
+      {
+        nome: "Authority Cardio Insight",
+        descricao: "Como estruturar consultas de 'Segunda Opinião' em casos complexos de cirurgia cardíaca, posicionando-se como a autoridade máxima que resolve os casos que ninguém mais resolve.",
+      },
+      ],
     },
   },
 };

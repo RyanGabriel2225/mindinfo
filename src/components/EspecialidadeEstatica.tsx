@@ -1,4 +1,4 @@
-import type { EspecialidadeVet, Infoproduto, LinhaTabela } from "@/data/vet-especialidades";
+import type { EspecialidadeVet, IdeiaInfoproduto, LinhaTabela } from "@/data/vet-especialidades";
 
 function Tabela({ rows, col1Label }: { rows: LinhaTabela[]; col1Label: string }) {
   return (
@@ -29,27 +29,24 @@ function Tabela({ rows, col1Label }: { rows: LinhaTabela[]; col1Label: string })
   );
 }
 
-function CardInfo({ titulo, info }: { titulo: string; info: Infoproduto }) {
+function ColunaIdeias({ titulo, ideias }: { titulo: string; ideias: IdeiaInfoproduto[] }) {
   return (
     <div className="rounded-2xl border border-border/60 bg-card/40 p-5 backdrop-blur-sm">
-      <h4 className="font-display text-lg font-bold text-primary">{titulo}</h4>
-      <p className="mt-3 text-sm text-foreground/90">
-        <strong className="text-foreground">Nome:</strong> {info.nome}
-      </p>
-      <dl className="mt-3 space-y-2 text-sm text-foreground/80">
-        <div><dt className="font-semibold text-foreground inline">Público: </dt><dd className="inline">{info.publico}</dd></div>
-        <div><dt className="font-semibold text-foreground inline">Dores: </dt><dd className="inline">{info.dores}</dd></div>
-        <div><dt className="font-semibold text-foreground inline">Problema: </dt><dd className="inline">{info.problema}</dd></div>
-        <div><dt className="font-semibold text-foreground inline">Estrutura: </dt><dd className="inline">{info.estrutura}</dd></div>
-        <div><dt className="font-semibold text-foreground inline">Entregáveis: </dt><dd className="inline">{info.entregaveis}</dd></div>
-        <div><dt className="font-semibold text-foreground inline">Duração: </dt><dd className="inline">{info.duracao}</dd></div>
-      </dl>
+      <h4 className="font-display text-lg font-bold text-primary mb-4">{titulo}</h4>
+      <ul className="space-y-4">
+        {ideias.map((it, i) => (
+          <li key={i} className="border-l-2 pl-3" style={{ borderColor: "#e2b984" }}>
+            <p className="font-semibold text-foreground">{it.nome}</p>
+            <p className="mt-1 text-sm text-foreground/80 leading-relaxed">{it.descricao}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
 export function EspecialidadeEstatica({ data }: { data: EspecialidadeVet }) {
-  const tutoresLabel = data.tutoresLabel ?? "Pacientes de Alto Valor (Tutores)";
+  const altoValorLabel = data.altoValorLabel ?? "Pacientes de Alto Valor (Tutores)";
 
   return (
     <div className="space-y-10 text-foreground/90 leading-relaxed">
@@ -102,11 +99,14 @@ export function EspecialidadeEstatica({ data }: { data: EspecialidadeVet }) {
 
       {/* 6 */}
       <section>
-        <h2 className="font-display text-2xl font-bold text-primary mb-4">6. Oportunidades de Infoproduto</h2>
+        <h2 className="font-display text-2xl font-bold text-primary mb-2">6. Oportunidades de Infoproduto</h2>
+        <p className="text-sm text-muted-foreground mb-5">
+          Ideias de produtos digitais para colegas veterinários monetizarem dentro da especialidade.
+        </p>
         <div className="grid gap-4 md:grid-cols-3">
-          <CardInfo titulo="Dominando a Técnica" info={data.infoTecnica} />
-          <CardInfo titulo="Gestão, Marketing e Vendas" info={data.infoGestao} />
-          <CardInfo titulo={tutoresLabel} info={data.infoTutores} />
+          <ColunaIdeias titulo="Dominando a Técnica" ideias={data.infoIdeias.tecnica} />
+          <ColunaIdeias titulo="Gestão, Marketing e Vendas" ideias={data.infoIdeias.gestao} />
+          <ColunaIdeias titulo={altoValorLabel} ideias={data.infoIdeias.altoValor} />
         </div>
       </section>
     </div>
